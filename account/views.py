@@ -99,10 +99,10 @@ def verify_email(request, uidb64, token):
 
         login(request, user)
         messages.success(request, "Your email has been verified successfully!")
-        return redirect('account:customer_dashboard')
+        return redirect('customer:customer_dashboard')
 
     messages.error(request, "Verification link is invalid or expired.")
-    return redirect('frontend:login')
+    return redirect('account:login')
 
 
 class EmailLoginView(LoginView):

@@ -1,0 +1,250 @@
+{% load static %}
+<!-- Mobile Navbar -->
+<nav class="navbar navbar-dark bg-light d-lg-none px-3">
+  <button class="btn btn-outline-dark text-dark" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">☰</button>
+
+  <img src="{% static 'frontend/assets/images/axxio-logo.png' %}" alt="Logo" class="logo ms-2" width="100">
+
+  <div class="d-flex align-items-center ms-auto">
+    
+    <span class="me-2 text-dark fw-semibold" style="font-size: 11px;">
+        {{ request.user.nick_name }}
+    </span>
+
+    {% if user.profile.image %}
+      <img src="{{ request.user.profile.image.url }}" 
+           alt="{{ user.username }}" 
+           class="rounded-circle" 
+           width="40" height="40">
+    {% else %}
+      <div class="rounded-circle  d-flex justify-content-center align-items-center"
+           style="width: 40px; height: 40px; color: white; font-weight: bold; background-color: rgb(22, 52, 22);">
+           {{ request.user.nick_name|slice:":1"|upper }}
+      </div>
+    {% endif %}
+
+  </div>
+</nav>
+
+<!-- Mobile Sidebar -->
+<div class="offcanvas offcanvas-end text-white" tabindex="-1" id="mobileSidebar">
+  <div class="offcanvas-header">
+    <div class="logo">
+      <!-- <img src="{% static 'account/images/logo-stone.png' %}" alt="" width="130"> -->
+      <img src="{% static 'frontend/assets/images/axxio-logo.png' %}" alt="" width="120">
+       
+    </div>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <!-- <hr class="border-white"> -->
+  <div class="offcanvas-body mt-5">
+    <ul class="nav flex-column">
+      {% if not request.user.is_staff %}
+      <li>
+        <a class="nav-link {% if current_url == 'customer_dashboard' %}active{% endif %}"
+          href="{% url 'customer:customer_dashboard' %}">
+          <i class="bi bi-speedometer2 me-2"></i>
+          Portfolio
+        </a>
+      </li>
+      <!-- <li><a class="nav-link" href="#"><i class="bi bi-briefcase me-2"></i> Capital Allocation</a></li> -->
+      <li>
+        <a class="nav-link {% if current_url == 'reits' %}active{% endif %}" href="">
+          <i class="bi bi-buildings me-2"></i>
+          Manage Plans
+        </a>
+      </li>
+      <li>
+        <a class="nav-link {% if current_url == 'all_plans' %}active{% endif %}" href="">
+          <i class="bi bi-diagram-3 me-2"></i>
+          Asset Mandates
+        </a>
+      </li>
+      <li>
+        <a class="nav-link {% if current_url == 'copy_experts' %}active{% endif %}"
+          href="">
+          <i class="bi bi-people me-2"></i>
+          Strategic Mirroring
+        </a>
+      </li>
+      <li>
+        <a class="nav-link {% if current_url == 'settings_security' %}active{% endif %}"
+          href="">
+          <i class="bi bi-gear me-2"></i>
+          Settings & Security
+        </a>
+      </li>
+      <li>
+      <a class="nav-link {% if current_url == 'wallet' %}active{% endif %}"
+        href="">
+        <i class="bi bi-bank me-2"></i>
+        Finance Hub
+      </a>
+    </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link {% if current_url == 'admin_dashboard' %}active{% endif %}"
+          href="">
+          <i class="bi bi-speedometer2 me-2"></i>
+          Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if current_url == 'admin_plan_list' %}active{% endif %}"
+          href="">
+          <i class="bi bi-diagram-3 me-2"></i>
+          All Plans
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if current_url == 'admin_deposit_requests' %}active{% endif %}"
+          href="{% url 'staff:admin_deposit_requests' %}">
+          <i class="bi bi-cash-stack me-2"></i>
+          Deposit Requests
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if current_url == 'admin_withdraw_requests' %}active{% endif %}"
+          href="{% url 'staff:admin_withdraw_requests' %}">
+          <i class="bi bi-arrow-down-circle me-2"></i>
+          Withdraw Requests
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if current_url == 'admin_kyc_list' %}active{% endif %}"
+          href="{% url 'staff:admin_kyc_list' %}">
+          <i class="bi bi-arrow-down-circle me-2"></i>
+          KYC Submissions
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if current_url == 'vip_requests' %}active{% endif %}"
+          href="{% url 'staff:vip_requests' %}">
+          <i class="bi bi-arrow-down-circle me-2"></i>
+          VIP Requests
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if current_url == 'admin_coin_wallet_list' %}active{% endif %}" href="{% url 'staff:admin_coin_wallet_list' %}">
+          <i class="bi bi-currency-bitcoin me-2"></i>
+          Crypto
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if current_url == 'logout' %}active{% endif %}" href="{% url 'account:logout' %}">
+          <i class="bi bi-box-arrow-right"></i>
+          Logout
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</div>
+
+<!-- Desktop Sidebar -->
+<div class="sidebar d-none d-lg-block">
+  <div class="logo">
+    <img src="{% static 'frontend/assets/images/axxio-logo.png' %}" alt="" width="130">
+  </div>
+  <!-- <hr class="border-white"> -->
+
+  <ul class="nav flex-column mt-5">
+    {% if not request.user.is_staff %}
+    <li>
+      <a class="nav-link {% if current_url == 'customer_dashboard' %}active{% endif %}"
+        href="{% url 'customer:customer_dashboard' %}">
+        <i class="bi bi-speedometer2 me-2"></i>
+        Portfolio
+      </a>
+    </li>
+    <!-- <li><a class="nav-link" href="#"><i class="bi bi-briefcase me-2"></i> Capital Allocation</a></li> -->
+    <li>
+      <a class="nav-link {% if current_url == 'reits' %}active{% endif %}" href="">
+        <i class="bi bi-buildings me-2"></i>
+        Manage Plans
+      </a>
+    </li>
+    <li>
+      <a class="nav-link {% if current_url == 'all_plans' %}active{% endif %}" href="">
+        <i class="bi bi-diagram-3 me-2"></i>
+        Asset Mandates
+      </a>
+    </li>
+    <li>
+      <a class="nav-link {% if current_url == 'copy_experts' %}active{% endif %}"
+        href="">
+        <i class="bi bi-people me-2"></i>
+        Strategic Mirroring
+      </a>
+    </li>
+    <li>
+      <a class="nav-link {% if current_url == 'settings_security' %}active{% endif %}"
+        href="">
+        <i class="bi bi-gear me-2"></i>
+        Settings & Security
+      </a>
+    </li>
+    <li>
+      <a class="nav-link {% if current_url == 'wallet' %}active{% endif %}"
+        href="">
+        <i class="bi bi-bank me-2"></i>
+        Finance Hub
+      </a>
+    </li>
+    {% else %}
+    <li class="nav-item">
+      <a class="nav-link {% if current_url == 'admin_dashboard' %}active{% endif %}"
+        href="">
+        <i class="bi bi-speedometer2 me-2"></i>
+        Dashboard
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if current_url == 'admin_plan_list' %}active{% endif %}"
+        href="{% url 'staff:admin_plan_list' %}">
+        <i class="bi bi-diagram-3 me-2"></i>
+        All Plans
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if current_url == 'admin_deposit_requests' %}active{% endif %}"
+        href="{% url 'staff:admin_deposit_requests' %}">
+        <i class="bi bi-cash-stack me-2"></i>
+        Deposit Requests
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if current_url == 'admin_withdraw_requests' %}active{% endif %}"
+        href="{% url 'staff:admin_withdraw_requests' %}">
+        <i class="bi bi-arrow-down-circle me-2"></i>
+        Withdraw Requests
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if current_url == 'admin_kyc_list' %}active{% endif %}"
+        href="{% url 'staff:admin_kyc_list' %}">
+        <i class="bi bi-arrow-down-circle me-2"></i>
+        KYC Submissions
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if current_url == 'vip_requests' %}active{% endif %}" href="{% url 'staff:vip_requests' %}">
+        <i class="bi bi-arrow-down-circle me-2"></i>
+        VIP Requests
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if current_url == 'admin_coin_wallet_list' %}active{% endif %}" href="{% url 'staff:admin_coin_wallet_list' %}">
+        <i class="bi bi-currency-bitcoin me-2"></i>
+        Crypto
+      </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if current_url == 'logout' %}active{% endif %}" href="{% url 'account:logout' %}">
+          <i class="bi bi-box-arrow-right"></i>
+          Logout
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+</div>

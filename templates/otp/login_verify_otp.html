@@ -1,0 +1,105 @@
+{% extends '../frontend/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .text-primary{
+        color: #590e8b !important;
+    }
+    .form-group label {
+        position: relative;
+        display: block;
+        font-size: 16px;
+        line-height: 26px;
+        font-family: var(--title-font);
+        color: var(--title-color);
+        font-weight: 500;
+        margin-bottom: 15px;
+        padding-left: 24px;
+    }
+
+    .form-group label i {
+        position: absolute;
+        left: 0px;
+        top: 4px;
+        color: #26c48c;
+    }
+
+    .form-group label span {
+        color: #a5b2af;
+    }
+
+    .form-group input[type='text'],
+    .form-group input[type='email'],
+    .form-group input[type='password'],
+    .form-group .nice-select {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 54px;
+        border: 1px solid #dbe5e2;
+        border-radius: 10px;
+        font-size: 16px;
+        color: #a5b2af;
+        padding: 10px 20px;
+        font-weight: 500;
+        transition: all 500ms ease;
+    }
+
+    .form-group input:focus {
+        border-color: var(--theme-color);
+    }
+</style>
+<!-- page-title -->
+<section class="page-title">
+    <div class="bg-layer" style="background-image: url(/static/frontend/assets/images/background/page-title.jpg);">
+    </div>
+    <div class="auto-container">
+        <div class="content-box">
+            <h1>Verify otp</h1>
+            <ul class="bread-crumb clearfix">
+                <li><a href="{% url 'frontend:home' %}">Home</a></li>
+                <li>Verify otp</li>
+                <li><span>Verify otp</span></li>
+            </ul>
+        </div>
+    </div>
+    {% include "../notification/messages.html" %}
+</section>
+<!-- page-title end -->
+
+<div class="section mt-3">
+  <div class="container-fluid py-5">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-md-6 mb-3">
+        {% include "../notification/messages.html" %}
+        <div class="card bg-color-6 text-center">
+          <h4 class="text-center text-light p-3">Enter OTP</h4>
+          <hr class="border-white">
+          <div class="card-body text-white">
+            <p class="text-white mb-3">An OTP has been sent to your email: <strong>{{ user.email }}</strong></p>
+            <form method="post" class="pinner-form">
+              {% csrf_token %}
+              <div class="mb-3">
+                <!-- <label class="text-white">OTP</label> -->
+                <input type="text" name="otp" class="form-control" placeholder="Enter OTP" required>
+              </div>
+              <button type="submit" class="btn theme-btn btn-one w-100 btn-sm fw-bold mt-3" 
+                data-spinner-text="Verifying otp..."
+                data-spinner-class="btn-secondary w-100">Verify OTP</button>
+            </form>
+            <hr class="border-light">
+            <!-- Resend OTP -->
+            <form method="post" action="{% url 'otp:resend_otp' %}" class="mt-2 text-center">
+              {% csrf_token %}
+              <p class="text-light mb-2">Didn't receive the otp?</p>
+              <button type="submit" class="btn btn-outline-light btn-sm">Resend OTP</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
