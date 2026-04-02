@@ -11996,7 +11996,8 @@ div#mCSB_1_container{
   height: 100%;
   left: 0px;
   top: 0px;
-  background: -webkit-linear-gradient(-45deg, #132720 50%, #187c59 80%);
+  background: -webkit-linear-gradient(-45deg, #3d048e 50%, #7921f5 80%);
+  /* background: -webkit-linear-gradient(-45deg, #132720 50%, #187c59 80%); */
   opacity: 0.6;
 }
 

@@ -1,0 +1,393 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- page-title -->
+<section class="page-title">
+    <div class="bg-layer" style="background-image: url(/static/frontend/assets/images/background/page-title.jpg);"></div>
+    <div class="auto-container">
+        <div class="content-box">
+            <h1>Axxio Capital</h1>
+            <ul class="bread-crumb clearfix">
+                <li><a href="{% url 'frontend:home' %}">Home</a></li>
+                <li>About</li>
+                <li><span>Axxiocapital</span></li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!-- page-title end -->
+
+
+<!-- about-style-two -->
+<section class="about-style-two">
+    <div class="auto-container">
+        <div class="row align-items-center">
+
+            <!-- Image Section -->
+            <div class="col-lg-7 col-md-12 col-sm-12 image-column">
+                <div class="image-box">
+                    <figure class="image">
+                        <img src="{% static 'frontend/assets/images/resource/about-2.jpg' %}" alt="">
+                    </figure>
+
+                    <div class="experience-box">
+                        <div class="shape"
+                            style="background-image: url(/static/frontend/assets/images/shape/shape-16.png);"></div>
+                        <div class="icon-box">
+                            <img src="{% static 'frontend/assets/images/icons/icon-37.png' %}" alt="">
+                        </div>
+                        <h2>Trusted</h2>
+                        <h5>Investment Platform</h5>
+                    </div>
+
+                    <div class="image-content">
+                        <h6>Our Commitment</h6>
+                        <h3>Transparency & Consistency</h3>
+                        <p><i class="flaticon-right-up"></i>Focused on Long-Term Growth</p>
+                        <div class="bar">
+                            <img src="{% static 'frontend/assets/images/icons/bar-2.png' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="col-lg-5 col-md-12 col-sm-12 content-column">
+                <div class="content-box">
+                    <div class="sec-title">
+                        <h6>About AxxioCapital</h6>
+                        <h2>Building Wealth Through Strategic Investments</h2>
+                    </div>
+
+                    <div class="text-box">
+                        <p>
+                            AxxioCapital is a modern investment platform focused on providing individuals
+                            with structured opportunities to grow their wealth through carefully managed
+                            financial strategies. Our approach combines market insight, risk management,
+                            and consistency to deliver reliable performance over time.
+                        </p>
+
+                        <div class="single-item">
+                            <div class="icon-box">
+                                <img src="{% static 'frontend/assets/images/icons/icon-38.png' %}" alt="">
+                            </div>
+                            <h3>Our Approach</h3>
+                            <p>
+                                We offer flexible investment plans designed to suit different financial goals,
+                                allowing investors to earn returns on a monthly or yearly basis while maintaining
+                                full transparency and control.
+                            </p>
+                        </div>
+
+                        <a href="#" class="theme-btn btn-two">
+                            <span>Learn More</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- about-style-two end -->
+
+
+<!-- chooseus-style-three -->
+<section class="chooseus-style-three sec-pad">
+    <div class="auto-container">
+
+        <div class="sec-title centred light">
+            <h6>Why Choose Us</h6>
+            <h2>Trusted Investment Solutions Built for You</h2>
+        </div>
+
+        <div class="inner-container">
+            <div class="row align-items-center">
+
+                <!-- LEFT -->
+                <div class="col-lg-4 col-md-12 col-sm-12 left-column">
+                    <div class="left-content clearfix">
+
+                        <div class="single-item">
+                            <h5><i class="flaticon-check-1"></i> Transparent Investment Process</h5>
+                        </div>
+
+                        <div class="single-item">
+                            <h5><i class="flaticon-check-1"></i> Consistent Return Structure</h5>
+                        </div>
+
+                        <div class="single-item">
+                            <h5><i class="flaticon-check-1"></i> Flexible Investment Plans</h5>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- IMAGE -->
+                <div class="col-lg-4 col-md-12 col-sm-12 image-column">
+                    <div class="image-box">
+                        <figure class="image">
+                            <img src="{% static 'frontend/assets/images/resource/chooseus-1.jpg' %}" alt="">
+                        </figure>
+                        <div class="shape"
+                            style="background-image: url(/static/frontend/assets/images/shape/shape-20.png);"></div>
+                        <span class="big-text">AxxioCapital</span>
+                    </div>
+                </div>
+
+                <!-- RIGHT -->
+                <div class="col-lg-4 col-md-12 col-sm-12 right-column">
+                    <div class="right-content clearfix">
+
+                        <div class="single-item">
+                            <h5><i class="flaticon-check-1"></i> Secure Transactions</h5>
+                        </div>
+
+                        <div class="single-item">
+                            <h5><i class="flaticon-check-1"></i> Fast Withdrawal Processing</h5>
+                        </div>
+
+                        <div class="single-item">
+                            <h5><i class="flaticon-check-1"></i> Dedicated Customer Support</h5>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- LOWER CONTENT -->
+        <div class="lower-content centred">
+            <h3>Built on Trust, Driven by Results</h3>
+            <p>
+                At AxxioCapital, we prioritize transparency, security, and consistency in everything we do.
+                Our goal is to provide a reliable investment environment where individuals can grow their
+                wealth with confidence and peace of mind.
+            </p>
+            <a href="#" class="theme-btn btn-two">
+                <span>Get Started Today</span>
+            </a>
+        </div>
+
+    </div>
+</section>
+<!-- chooseus-style-three end -->
+
+
+<!-- working-style-two -->
+<section class="working-style-two bg-color-5">
+    <div class="auto-container">
+
+        <div class="sec-title">
+            <h6>How It Works</h6>
+            <h2>Start Investing in Simple Steps</h2>
+
+            <div class="video-inner">
+                <a href="#" class="lightbox-image" data-caption="">
+                    <i class="flaticon-play-buttton"></i>
+                </a>
+                <h5>See how AxxioCapital <br>works in minutes</h5>
+            </div>
+        </div>
+
+        <div class="inner-container">
+            <div class="shape" style="background-image: url(/static/frontend/assets/images/shape/shape-21.png);"></div>
+
+            <div class="row clearfix">
+
+                <!-- STEP 1 -->
+                <div class="col-lg-3 col-md-6 col-sm-12 working-block">
+                    <div class="working-block-two">
+                        <div class="inner-box">
+                            <div class="text-box">
+                                <h3>Create an Account</h3>
+                                <p>
+                                    Sign up in minutes and gain access to your personal investment dashboard.
+                                </p>
+                            </div>
+                            <div class="decore"></div>
+                            <div class="step">
+                                <h6>Step 01</h6>
+                            </div>
+                            <div class="icon-box">
+                                <img src="{% static 'frontend/assets/images/icons/icon-39.png' %}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 2 -->
+                <div class="col-lg-3 col-md-6 col-sm-12 working-block">
+                    <div class="working-block-two">
+                        <div class="inner-box">
+                            <div class="icon-box">
+                                <img src="{% static 'frontend/assets/images/icons/icon-40.png' %}" alt="">
+                            </div>
+                            <div class="step">
+                                <h6>Step 02</h6>
+                            </div>
+                            <div class="decore"></div>
+                            <div class="text-box">
+                                <h3>Choose a Plan</h3>
+                                <p>
+                                    Select from Regular, Gold, Diamond, or Platinum based on your investment goals.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 3 -->
+                <div class="col-lg-3 col-md-6 col-sm-12 working-block">
+                    <div class="working-block-two">
+                        <div class="inner-box">
+                            <div class="text-box">
+                                <h3>Make a Deposit</h3>
+                                <p>
+                                    Fund your account securely and activate your chosen investment plan.
+                                </p>
+                            </div>
+                            <div class="decore"></div>
+                            <div class="step">
+                                <h6>Step 03</h6>
+                            </div>
+                            <div class="icon-box">
+                                <img src="{% static 'frontend/assets/images/icons/icon-41.png' %}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 4 -->
+                <div class="col-lg-3 col-md-6 col-sm-12 working-block">
+                    <div class="working-block-two">
+                        <div class="inner-box">
+                            <div class="icon-box">
+                                <img src="{% static 'frontend/assets/images/icons/icon-42.png' %}" alt="">
+                            </div>
+                            <div class="step">
+                                <h6>Step 04</h6>
+                            </div>
+                            <div class="decore"></div>
+                            <div class="text-box">
+                                <h3>Earn & Withdraw</h3>
+                                <p>
+                                    Monitor your earnings and withdraw your returns based on your plan cycle.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- working-style-two end -->
+
+
+<!-- testimonial-style-two -->
+<section class="testimonial-style-two sec-pad">
+    <div class="auto-container">
+        <div class="sec-title centred">
+            <h6>Testimonials</h6>
+            <h2>Hear what traders think</h2>
+        </div>
+
+        <div class="three-item-carousel owl-carousel owl-theme dots-style-one nav-style-one">
+
+            <!-- Testimonial 1 -->
+            <div class="testimonial-block-two">
+                <h5>Experience Like Never Before</h5>
+                <div class="inner-box">
+                    <div class="author-box">
+                        <figure class="thumb-box"><img src="{% static 'frontend/assets/images/resource/testimonial-3.png' %}" alt=""></figure>
+                        <h3>Nathan Felix</h3>
+                        <span class="designation">California, USA</span>
+                    </div>
+                    <p>Indignation dislike men who are beguiled & demoralized by the charms of pleasures of the moment. Reading this was eye-opening.</p>
+                    <div class="lower-box">
+                        <div class="text-box">
+                            <span>Payout</span>
+                            <h3>$4,350</h3>
+                        </div>
+                        <div class="rating">
+                            <h6><i class="flaticon-rate-star-button"></i>4.9</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="testimonial-block-two">
+                <h5>Made Simple and Easy</h5>
+                <div class="inner-box">
+                    <div class="author-box">
+                        <figure class="thumb-box"><img src="{% static 'frontend/assets/images/resource/testimonial-4.png' %}" alt=""></figure>
+                        <h3>Eloise Juniper</h3>
+                        <span class="designation">Liverpool, UK</span>
+                    </div>
+                    <p>The process was perfectly simple and easy to follow. I had my plan up and running in no time.</p>
+                    <div class="lower-box">
+                        <div class="text-box">
+                            <span>Payout</span>
+                            <h3>$3,940</h3>
+                        </div>
+                        <div class="rating">
+                            <h6><i class="flaticon-rate-star-button"></i>5.0</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="testimonial-block-two">
+                <h5>Fxvibe Changed My Life!</h5>
+                <div class="inner-box">
+                    <div class="author-box">
+                        <figure class="thumb-box"><img src="{% static 'frontend/assets/images/resource/testimonial-5.png' %}" alt=""></figure>
+                        <h3>Richard Harry</h3>
+                        <span class="designation">Munich, Germany</span>
+                    </div>
+                    <p>Fxvibe’s platform transformed my approach to trading. Now I can monitor and grow my profits efficiently.</p>
+                    <div class="lower-box">
+                        <div class="text-box">
+                            <span>Payout</span>
+                            <h3>$2,175</h3>
+                        </div>
+                        <div class="rating">
+                            <h6><i class="flaticon-rate-star-button"></i>4.9</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Optional Testimonial 4 -->
+            <div class="testimonial-block-two">
+                <h5>Quick and Reliable</h5>
+                <div class="inner-box">
+                    <div class="author-box">
+                        <figure class="thumb-box"><img src="{% static 'frontend/assets/images/resource/testimonial-6.png' %}" alt=""></figure>
+                        <h3>Clara Thompson</h3>
+                        <span class="designation">Sydney, Australia</span>
+                    </div>
+                    <p>Everything was transparent and fast. I felt confident in every step of my trading journey.</p>
+                    <div class="lower-box">
+                        <div class="text-box">
+                            <span>Payout</span>
+                            <h3>$5,200</h3>
+                        </div>
+                        <div class="rating">
+                            <h6><i class="flaticon-rate-star-button"></i>5.0</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- testimonial-style-two end -->
+{% endblock %}

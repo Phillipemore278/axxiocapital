@@ -1,0 +1,132 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- page-title -->
+<!-- page-title -->
+<section class="page-title">
+    <div class="bg-layer" style="background-image: url(/static/frontend/assets/images/background/page-title-2.jpg);">
+    </div>
+    <div class="auto-container">
+        <div class="content-box">
+            <h1>Contact Us</h1>
+            <ul class="bread-crumb clearfix">
+                <li><a href="{% url 'frontend:home' %}">Home</a></li>
+                <li><span>Contact</span></li>
+            </ul>
+        </div>
+        <!-- <div class="info-content centred">
+            <div class="row clearfix">
+                <div class="col-lg-3 col-md-6 col-sm-12 info-block">
+                    <div class="info-block-one">
+                        <div class="inner-box">
+                            <div class="icon-box"><img src="{% static 'frontend/assets/images/icons/icon-95.png' %}" alt=""></div>
+                            <h5>Request Call Back</h5>
+                            <p>Share ph num, we will back.</p>
+                            <div class="phone-box"><input type="text" name="phone" placeholder="Ph Num..."></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 info-block">
+                    <div class="info-block-one">
+                        <div class="inner-box">
+                            <div class="icon-box"><img src="{% static 'frontend/assets/images/icons/icon-96.png' %}" alt=""></div>
+                            <h5>Chat with Expert</h5>
+                            <p>Live chat with forex specialist.</p>
+                            <div class="phone-box"><button type="button" class="theme-btn btn-two"><span>Start
+                                        Chat</span></button></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12 info-block">
+                    <div class="info-block-two">
+                        <div class="inner-box">
+                            <h5>Quick Contact</h5>
+                            <ul class="list-item">
+                                <li><a href="tel:18007661234"><i class="flaticon-phone-call"></i>+1 800 766-1234</a>
+                                </li>
+                                <li><a href="mailto:sendmail@example.com"><i
+                                            class="flaticon-open-envelope"></i>sendmail@example.com</a></li>
+                            </ul>
+                            <h4>Business Hours</h4>
+                            <p><span>Mon - Friday :</span> 9 am to 5 pm, <span>Satday :</span> 10 am to 1 pm</p>
+                            <h6><img src="{% static 'frontend/assets/images/icons/icon-97.png' %}" alt=""><a href="contact.html">Whatsapp</a>
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</section>
+<!-- page-title end -->
+
+<!-- contact-style-two -->
+<section class="contact-style-two">
+    <div class="auto-container">
+        <div class="title-inner">
+            <div class="sec-title">
+                <h6>Send Message</h6>
+                <h2>Drop a line, Stay in touch</h2>
+                <p>Please do not hesitate to contact us by sending a message.</p>
+            </div>
+            <div class="special-text">
+                <div class="shape" style="background-image: url(assets/images/shape/shape-48.png);"></div>
+                <h6><img src="assets/images/icons/icon-63.png" alt=""> Say Hi &amp; Hello</h6>
+            </div>
+        </div>
+        <div class="form-inner">
+            <form method="post" action="sendemail.php" id="contact-form" class="default-form">
+                <div class="row clearfix">
+                    <div class="col-lg-6 col-md-12 col-sm-12 left-column">
+                        <div class="form-group">
+                            <label><i class="fa-regular fa-user"></i> Your Name</label>
+                            <input type="text" name="username" placeholder="Enter name here" required="">
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label><i class="fa-regular fa-envelope"></i> Email Address</label>
+                                    <input type="email" name="email" placeholder="Email address" required="">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label><i class="fa-solid fa-phone"></i> Phone <span>(optional)</span></label>
+                                    <input type="text" name="phone" required="" placeholder="Ph num">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-regular fa-building"></i> Organization <span>(optional)</span></label>
+                            <input type="text" name="subject" required="" placeholder="Subject">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-regular fa-comment"></i> Want to Discuss About</label>
+                            <div class="select-box">
+                                <select class="selectmenu">
+                                    <option>Withdrawals</option>
+                                    <option>Currency Pairs</option>
+                                    <option>Platform & Tools</option>
+                                    <option>Monitoring & Support</option>
+                                    <option>Education & Training</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12 right-column">
+                        <label><i class="fa-solid fa-text-height"></i> Message</label>
+                        <div class="message-box">
+                            <div class="form-group">
+                                <textarea name="message" placeholder="Message goes here"></textarea>
+                            </div>
+                            <button class="theme-btn btn-two" type="submit" name="submit-form"><span>Send Message</span></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<!-- contact-style-two end -->
+{% endblock %}
