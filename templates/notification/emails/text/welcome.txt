@@ -1,0 +1,8 @@
+Hi {{ user_name }},
+
+Welcome to {{ site_name }}!
+
+Log in here:
+{{ login_url }}
+
+If you didn’t create this account, you can ignore this email.

@@ -1,0 +1,53 @@
+{% extends "./base.html" %}
+
+{% block title %}Verify your email address{% endblock %}
+
+{% block content %}
+  <p>Hi {{ user.nick_name }},</p>
+
+  <p>
+    Thanks for signing up for <strong>{{ site_name }}</strong>!
+    Please confirm your email address by clicking the button below.
+  </p>
+
+  <!-- Button -->
+  <table cellpadding="0" cellspacing="0" style="margin:24px 0;">
+    <tr>
+      <td
+        align="center"
+        style="background:#28a745; padding:14px 28px; border-radius:4px;"
+      >
+        <a
+          href="{{ verification_url }}"
+          style="
+            color:#ffffff;
+            text-decoration:none;
+            font-weight:bold;
+            font-family:Arial, sans-serif;
+            display:inline-block;
+          "
+        >
+          Verify Email Address
+        </a>
+      </td>
+    </tr>
+  </table>
+
+  <p>
+    Or copy and paste this link into your browser:
+  </p>
+
+  <p style="word-break:break-all;">
+    <a href="{{ verification_url }}" style="color:#28a745;">
+      {{ verification_url }}
+    </a>
+  </p>
+
+  <!-- <p>
+    This link will expire in {{ expiry_hours }} hours.
+  </p> -->
+
+  <p>
+    If you didn't create an account, you can safely ignore this email.
+  </p>
+{% endblock %}

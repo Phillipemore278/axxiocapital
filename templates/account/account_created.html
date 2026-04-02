@@ -1,0 +1,40 @@
+{% extends '../frontend/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- page-title -->
+<section class="page-title">
+    <div class="bg-layer" style="background-image: url(/static/frontend/assets/images/background/page-title.jpg);">
+    </div>
+    <div class="auto-container">
+        <div class="content-box">
+            <h1>Verify Email</h1>
+            <ul class="bread-crumb clearfix">
+                <li><a href="{% url 'frontend:home' %}">Home</a></li>
+                <li>Account crteated</li>
+                <li><span>Verify email</span></li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!-- page-title end -->
+
+<div class="section">
+  <div class="container-fluid py-5">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-md-6 mb-3">
+        <div class="card bg-color-6 text-center">
+          <h4 class="text-center text-light p-3">Welcome, {{ full_name|default:"User" }}</h4>
+          <hr class="border-white">
+          <div class="card-body text-white">
+            <p class="text-white">Your account has been created successfully.</p>
+            <p class="text-white">Please check your email: <strong>{{ email }}</strong> to verify your account before logging in.</p>
+            <a href="" class="btn theme-btn btn-one mt-3 w-100 btn-sm fw-bold">Go to Login</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

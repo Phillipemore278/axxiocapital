@@ -1,0 +1,65 @@
+{% extends "./base.html" %}
+
+{% block title %}KYC Verification Update{% endblock %}
+
+{% block content %}
+  <p>Hello {{ user.full_name|default:"there" }},</p>
+
+  <p>
+    Thank you for completing the identity verification process for
+    <strong>{{ site_name }}</strong>.
+  </p>
+
+  <p>
+    After reviewing your submission, we were unable to approve your identity
+    verification (KYC) at this time.
+  </p>
+
+  <p><strong>Possible reasons may include:</strong></p>
+
+  <ul>
+    <li>{{reason}}</li>
+  </ul>
+
+  <p>
+    You may log in to your account and resubmit your documents for another review.
+    Please ensure all information is accurate and clearly visible.
+  </p>
+
+  <!-- Button -->
+  <!-- <table cellpadding="0" cellspacing="0" style="margin:24px 0;">
+    <tr>
+      <td
+        align="center"
+        style="background:#dc3545; padding:14px 28px; border-radius:4px;"
+      >
+        <a
+          href="{{ kyc_retry_url }}"
+          style="
+            color:#ffffff;
+            text-decoration:none;
+            font-weight:bold;
+            font-family:Arial, sans-serif;
+            display:inline-block;
+          "
+        >
+          Resubmit Verification
+        </a>
+      </td>
+    </tr>
+  </table> -->
+
+  <p>
+    If you believe this decision was made in error or need assistance, our support
+    team is here to help.
+  </p>
+
+  <p>
+    Thank you for your understanding.
+  </p>
+
+  <p>
+    Warm regards,<br>
+    <strong>{{ site_name|default:"Support Team" }}</strong>
+  </p>
+{% endblock %}

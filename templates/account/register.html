@@ -1,0 +1,111 @@
+{% extends '../frontend/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .text-primary{
+        color: #7026c4 !important;
+    }
+    .form-group label {
+        position: relative;
+        display: block;
+        font-size: 16px;
+        line-height: 26px;
+        font-family: var(--title-font);
+        color: var(--title-color);
+        font-weight: 500;
+        margin-bottom: 15px;
+        padding-left: 24px;
+    }
+
+    .form-group label i {
+        position: absolute;
+        left: 0px;
+        top: 4px;
+        color: #26c48c;
+    }
+
+    .form-group label span {
+        color: #a5b2af;
+    }
+
+    .form-group input[type='text'],
+    .form-group input[type='email'],
+    .form-group input[type='password'],
+    .form-group .nice-select {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 54px;
+        border: 1px solid #dbe5e2;
+        border-radius: 10px;
+        font-size: 16px;
+        color: #a5b2af;
+        padding: 10px 20px;
+        font-weight: 500;
+        transition: all 500ms ease;
+    }
+
+    .form-group input:focus {
+        border-color: var(--theme-color);
+    }
+</style>
+<!-- page-title -->
+<section class="page-title">
+    <div class="bg-layer" style="background-image: url(/static/frontend/assets/images/background/page-title.jpg);">
+    </div>
+    <div class="auto-container">
+        <div class="content-box">
+            <h1>Register</h1>
+            <ul class="bread-crumb clearfix">
+                <li><a href="{% url 'frontend:home' %}">Home</a></li>
+                <li>Register</li>
+                <li><span>Create Account</span></li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!-- page-title end -->
+
+<!-- registration form -->
+<section class="register-form">
+    <div class="container py-5">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="text-center py-3 text-primary">REGISTER</h3>
+                        <hr class="mt-0">
+                        {% include "../notification/messages.html" %}
+                        <form action="" method="post" class="pinner-form">
+                            {% csrf_token %}
+
+                            {% for field in form %}
+                            <div class="form-group mb-3">
+                                <!-- <label for="{{ field.id_for_label }}"> 
+                                    {{ field.label}}
+                                </label> -->
+                                {{ field }}
+                                {% if field.errors %}
+                                <div class="text-danger mt-2">
+                                    {{ field.errors|striptags }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+
+                            <button class="theme-btn btn-two w-100" type="submit" name="submit-form" 
+                            data-spinner-text="Creating Account..."
+                            data-spinner-class="btn-secondary w-100">
+                                Submit
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

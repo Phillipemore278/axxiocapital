@@ -24,9 +24,9 @@
                                     <li class=""><a href="{% url 'frontend:about' %}">About</a>
                                     </li>
                                     <li><a href="{% url 'frontend:contact' %}">Contact</a></li>
-                                    <li class=""><a href="#">Register</a>
+                                    <li class=""><a href="{% url 'account:register' %}">Register</a>
                                     </li>
-                                    <li class=""><a href="#">Login</a>
+                                    <li class=""><a href="{% url 'account:login' %}">Login</a>
                                     </li>
                                 </ul>
                             </div>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="menu-right-content">
                     <div class="login-box">
-                        <a href="index-2.html"><i class="flaticon-user"></i>Users Login</a>
+                        <a href="{% url 'account:login' %}"><i class="flaticon-user"></i>Users Login</a>
                     </div>
                     <div class="support-box">
                         <figure class="image-box"><img
@@ -63,7 +63,7 @@
                 </div>
                 <div class="menu-right-content">
                     <div class="login-box">
-                        <a href="index-2.html"><i class="flaticon-user"></i>Users Login</a>
+                        <a href="{% url 'account:login' %}"><i class="flaticon-user"></i>Users Login</a>
                     </div>
                     <div class="support-box">
                         <figure class="image-box"><img

@@ -1,0 +1,61 @@
+{% extends "./base.html" %}
+
+{% block title %}KYC Verification Approved{% endblock %}
+
+{% block content %}
+  <p>Hello {{ user.full_name|default:"there" }},</p>
+
+  <p>
+    We're happy to let you know that your identity verification (KYC) has been
+    <strong>successfully approved</strong>.
+  </p>
+
+  <p>
+    You now have full access to all features on your account, including withdrawals
+    and advanced trading tools.
+  </p>
+
+  <p><strong>What this means for you:</strong></p>
+
+  <ul>
+    <li>✅ Withdrawals are now enabled</li>
+    <li>✅ Full account access unlocked</li>
+    <li>✅ Faster processing on future requests</li>
+  </ul>
+
+  <!-- Button -->
+  <!-- <table cellpadding="0" cellspacing="0" style="margin:24px 0;">
+    <tr>
+      <td
+        align="center"
+        style="background:#28a745; padding:14px 28px; border-radius:4px;"
+      >
+        <a
+          href="{{ dashboard_url }}"
+          style="
+            color:#ffffff;
+            text-decoration:none;
+            font-weight:bold;
+            font-family:Arial, sans-serif;
+            display:inline-block;
+          "
+        >
+          Go to Dashboard
+        </a>
+      </td>
+    </tr>
+  </table> -->
+
+  <p>
+    If you have any questions or need assistance, our support team is always here to help.
+  </p>
+
+  <p>
+    Thank you for completing the verification process and for trusting us.
+  </p>
+
+  <p>
+    Warm regards,<br>
+    <strong>{{ site_name|default:"Support Team" }}</strong>
+  </p>
+{% endblock %}

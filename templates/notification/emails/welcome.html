@@ -1,0 +1,25 @@
+{% extends "emails/base.html" %}
+
+{% block title %}Welcome to {{ site_name }}{% endblock %}
+
+{% block content %}
+  <p>Hi {{ user_name }},</p>
+
+  <p>
+    Welcome to <strong>{{ site_name }}</strong>!  
+    We're excited to have you.
+  </p>
+
+  <table cellpadding="0" cellspacing="0" style="margin:24px 0;">
+    <tr>
+      <td style="background:#007bff; padding:12px 24px; border-radius:4px;">
+        <a href="{{ login_url }}"
+           style="color:#ffffff; text-decoration:none; font-weight:bold;">
+          Log in
+        </a>
+      </td>
+    </tr>
+  </table>
+
+  <p>If you didn't create this account, you can safely ignore this email.</p>
+{% endblock %}
