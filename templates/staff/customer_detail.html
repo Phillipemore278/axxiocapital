@@ -1,0 +1,114 @@
+{% extends "../customer/base.html" %}
+{% load humanize %}
+
+{% block title %}Customer Detail{% endblock %}
+
+{% block content %}
+<style>
+    .card{
+        background: linear-gradient(145deg, #120c1a, #1f1630);
+        border-radius: 12px;
+        color: #fff;
+        border: 1px solid #7921f4;
+        transition: 0.3s ease;
+    }
+</style>
+<!-- Customer Profile Section -->
+<div class="card shadow-sm mb-5">
+    <div class="card-body">
+        <div class="row align-items-center">
+
+            <!-- Customer Image -->
+            <div class="col-md-3 text-center mb-3 mb-md-0">
+                <img src="https://via.placeholder.com/150x150" class="img-fluid rounded-circle border" alt="Customer Image"
+                    style="width:150px; height:150px; object-fit:cover;">
+            </div>
+
+            <!-- Customer Details -->
+            <div class="col-md-9">
+                <h3 class="mb-3">{{customer.full_name}}</h3>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Email:</strong> {{customer.email}}</p>
+                        <p><strong>Country:</strong> {{customer.country}}</p>
+                        <!-- <p><strong>Status:</strong>
+                            {% if customer.is_vip %}
+                                <span class="badge bg-success">VIP</span>
+                            {% else %}
+                                <span class="badge bg-warning">Not VIP</span>
+                            {% endif %}
+                        </p> -->
+                    </div>
+
+                    <div class="col-md-6">
+                        <p><strong>KYC:</strong>
+                            {% if customer.portfolio.is_kyc_verified %}
+                                <span class="badge bg-success">Verified</span>
+                            {% else %}
+                                <span class="badge bg-warning">Not Verified</span>
+                            {% endif %}
+                        </p>
+                        <p><strong>Joined:</strong> {{customer.date_joined}}</p>
+                        <p><strong>Total Active Plans:</strong> {{order_plan_count}}</p>
+                    </div>
+                </div>
+
+                <!-- Admin Actions -->
+                <div class="mt-3">
+                    <!-- <button class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-pencil"></i> Edit Profile
+                    </button> -->
+                    <!-- <button class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-ban"></i> Suspend
+                    </button> -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% include "../notification/messages.html" %}
+<!-- Active Plans Section -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0 text-light">Active Plans</h4>
+</div>
+<hr class="border-light">
+<div class="row g-4">
+
+    <!-- Plan Card -->
+    {% for order in order_plan %}
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{order.plan.name}}</h5>
+                <!-- <p class="text-muted mb-2">Plan ID: PLAN-001</p> -->
+                <p><strong>Percent:</strong>
+                    {{order.plan.percent_increment|floatformat:1}}%
+                </p>
+                <p><strong>Started:</strong> {{order.created_at}}</p>
+                <p><strong>Allocated:</strong> ${{order.principal_amount|floatformat:2|intcomma}}</p>
+                <p><strong>Current Value:</strong> ${{order.current_value|floatformat:2|intcomma}}</p>
+                {% if order.is_mirrowed %}
+                    <p class="text-muted">Mirrowed Plan</p>
+                {% endif %}
+            </div>
+            <div class="card-footer bg-purple border-0">
+                <div class="d-flex justify-content-between">
+                    <a href="" class="btn btn-success btn-sm">
+                        <i class="bi bi-play-fill"></i> Spin Up
+                    </a>
+                    <a href="" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pause-fill"></i> Spin Down
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty%}
+        <p class="text-muted">No Available Active plan for this customer</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

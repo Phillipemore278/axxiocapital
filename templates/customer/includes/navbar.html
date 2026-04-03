@@ -90,7 +90,7 @@
       {% else %}
       <li class="nav-item">
         <a class="nav-link {% if current_url == 'admin_dashboard' %}active{% endif %}"
-          href="">
+          href="{% url 'staff:admin_dashboard' %}">
           <i class="bi bi-speedometer2 me-2"></i>
           Dashboard
         </a>
@@ -104,34 +104,34 @@
       </li>
       <li class="nav-item">
         <a class="nav-link {% if current_url == 'admin_deposit_requests' %}active{% endif %}"
-          href="{% url 'staff:admin_deposit_requests' %}">
+          href="">
           <i class="bi bi-cash-stack me-2"></i>
           Deposit Requests
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link {% if current_url == 'admin_withdraw_requests' %}active{% endif %}"
-          href="{% url 'staff:admin_withdraw_requests' %}">
+          href="">
           <i class="bi bi-arrow-down-circle me-2"></i>
           Withdraw Requests
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link {% if current_url == 'admin_kyc_list' %}active{% endif %}"
-          href="{% url 'staff:admin_kyc_list' %}">
+          href="">
           <i class="bi bi-arrow-down-circle me-2"></i>
           KYC Submissions
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link {% if current_url == 'vip_requests' %}active{% endif %}"
-          href="{% url 'staff:vip_requests' %}">
+          href="">
           <i class="bi bi-arrow-down-circle me-2"></i>
           VIP Requests
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link {% if current_url == 'admin_coin_wallet_list' %}active{% endif %}" href="{% url 'staff:admin_coin_wallet_list' %}">
+        <a class="nav-link {% if current_url == 'admin_coin_wallet_list' %}active{% endif %}" href="">
           <i class="bi bi-currency-bitcoin me-2"></i>
           Crypto
         </a>
@@ -206,47 +206,47 @@
     {% else %}
     <li class="nav-item">
       <a class="nav-link {% if current_url == 'admin_dashboard' %}active{% endif %}"
-        href="">
+        href="{% url 'staff:admin_dashboard' %}">
         <i class="bi bi-speedometer2 me-2"></i>
         Dashboard
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link {% if current_url == 'admin_plan_list' %}active{% endif %}"
-        href="{% url 'staff:admin_plan_list' %}">
+        href="">
         <i class="bi bi-diagram-3 me-2"></i>
         All Plans
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link {% if current_url == 'admin_deposit_requests' %}active{% endif %}"
-        href="{% url 'staff:admin_deposit_requests' %}">
+        href="">
         <i class="bi bi-cash-stack me-2"></i>
         Deposit Requests
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link {% if current_url == 'admin_withdraw_requests' %}active{% endif %}"
-        href="{% url 'staff:admin_withdraw_requests' %}">
+        href="">
         <i class="bi bi-arrow-down-circle me-2"></i>
         Withdraw Requests
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link {% if current_url == 'admin_kyc_list' %}active{% endif %}"
-        href="{% url 'staff:admin_kyc_list' %}">
+        href="">
         <i class="bi bi-arrow-down-circle me-2"></i>
         KYC Submissions
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link {% if current_url == 'vip_requests' %}active{% endif %}" href="{% url 'staff:vip_requests' %}">
+      <a class="nav-link {% if current_url == 'vip_requests' %}active{% endif %}" href="">
         <i class="bi bi-arrow-down-circle me-2"></i>
         VIP Requests
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link {% if current_url == 'admin_coin_wallet_list' %}active{% endif %}" href="{% url 'staff:admin_coin_wallet_list' %}">
+      <a class="nav-link {% if current_url == 'admin_coin_wallet_list' %}active{% endif %}" href="">
         <i class="bi bi-currency-bitcoin me-2"></i>
         Crypto
       </a>

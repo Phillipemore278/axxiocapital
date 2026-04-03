@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'customer.apps.CustomerConfig',
     'plan',
     'transaction',
+    'staff',
 ]
 
 MIDDLEWARE = [

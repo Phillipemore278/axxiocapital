@@ -1,0 +1,99 @@
+{% extends "../customer/base.html" %}
+
+
+{% block content %}
+<style>
+    .card{
+        background: linear-gradient(145deg, #120c1a, #1f1630);
+        border-radius: 12px;
+        color: #fff;
+        border: 1px solid #7921f4;
+        transition: 0.3s ease;
+    }
+
+    /* Force dark background */
+    .custom-table {
+        background-color: transparent !important;
+    }
+
+    .custom-table th,
+    .custom-table td {
+        background-color: transparent !important;
+        color: #fff;
+    }
+
+    /* Remove Bootstrap white */
+    .table {
+        --bs-table-bg: transparent !important;
+        --bs-table-striped-bg: transparent !important;
+        --bs-table-hover-bg: rgba(121, 33, 244, 0.05) !important;
+    }
+
+    /* Header */
+    .custom-table thead {
+        background: transparent;
+    }
+
+    /* Optional: smoother row hover */
+    .custom-table tbody tr:hover td {
+        background: rgba(121, 33, 244, 0.05) !important;
+    }
+</style>
+<div class="container mt-5">
+    {% include "../notification/messages.html" %}
+    <div class="row">
+        <div class="col-5 col-sm-8">
+            <h4 class="text-light">Customer List</h4>
+        </div>
+    </div>
+
+    <hr class="mt-0 border-light">
+    <div class="table-responsive">
+        <table class="table table-striped  table-hover mt-3 custom-table">
+            <thead">
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Nickname</th>
+                    <th>Date Joined</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <td>{{ customer.full_name }}</td>
+                    <td>{{ customer.email }}</td>
+                    <td>{{ customer.nick_name|default:"-" }}</td>
+                    <td>{{ customer.date_joined|date:"Y-m-d" }}</td>
+                    {% if customer.is_active%}
+                    <td>Active</td>
+                    {% else %}
+                    <td>Inactive</td>
+                    {% endif %}
+                    <td>
+                        <a href="{% url 'staff:admin_customer_detail' customer.id %}"
+                            class="me-3 btn btn-primary btn-sm">
+                            View Details
+                        </a>
+                        <a href="{% url 'staff:admin_edit_customer' customer.id %}"
+                            class="btn btn-info text-white btn-sm">
+                            Edit
+                        </a>
+                        <a href="{% url 'staff:admin_delete_customer' customer.id %}"
+                            class="btn btn-danger btn-sm ms-2">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No customers found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
