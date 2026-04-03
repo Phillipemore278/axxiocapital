@@ -1,0 +1,155 @@
+{% extends './base.html' %}
+{% load static %}
+<!-- {% load humanize %} -->
+
+{% block content %}
+<style>
+    /* Card */
+    .plan-full-card {
+        background: linear-gradient(145deg, #120c1a, #1f1630);
+        border-radius: 16px;
+        border: 1px solid #7921f4;
+        overflow: hidden;
+        transition: 0.3s ease;
+    }
+
+    .plan-full-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 25px rgba(121, 33, 244, 0.4);
+    }
+
+    /* Image */
+    .plan-img {
+        height: 100%;
+        object-fit: cover;
+        border-right: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Text */
+    .plan-full-card h5 {
+        color: #fff;
+    }
+
+    .plan-full-card p {
+        color: #aaa;
+    }
+
+    /* Button */
+    .activate-btn {
+        background: linear-gradient(90deg, #7921f4, #9b4dff);
+        border: none;
+        color: #fff;
+        padding: 10px;
+        border-radius: 30px;
+        font-weight: 500;
+    }
+
+    .activate-btn:hover {
+        background: #5a17c2;
+    }
+
+    /* Mobile Fix */
+    @media (max-width: 768px) {
+        .plan-img {
+            height: 200px;
+            border-right: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    }
+</style>
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-2 main-head">
+    <h5 class="text-light mb-2 mb-md-0">Available plans</h5>
+
+    <div class="d-flex align-items-center">
+        {% if user.profile.image %}
+        <img src="{{ user.profile.image.url }}" alt="{{ user.username }}" class="rounded-circle me-2" width="40"
+            height="40">
+        {% else %}
+        <div class="rounded-circle bg-secondary d-flex justify-content-center align-items-center me-2"
+            style="width: 40px; height: 40px; color: white; font-weight: bold;">
+            {{ portfolio.user.nick_name|slice:":1"|upper }}
+        </div>
+        {% endif %}
+        <span class="fw-medium text-light">{{ portfolio.user.nick_name }}</span>
+    </div>
+</div>
+<hr class="border-light mb-1">
+
+
+<div class="row g-4 mt-5">
+
+    <!-- Conservative Strategy -->
+    {% for plan in plans %}
+        <div class="col-md-6 mb-2">
+            <div class="card strategy-card  shadow-lg h-100">
+
+                <div class="card-body shadow mt-3 mb-2 ms-2 me-2 p-0">
+                    <div class="row g-0">
+
+                        <!-- Image Side -->
+                        <div class="col-5 p-0">
+                            <div class="image_wrapper">
+                                {% if plan.image %}
+                                    <img src="{{plan.image.url}}"
+                                class="strategy-image img-fluid" alt="Strategy">
+                                {% else %}
+                                
+                                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31"
+                                class="strategy-image img-fluid" alt="Strategy">
+                                {% endif %}
+
+                                <!-- white blend layer -->
+                                <div class="below_pic">
+                                    <div class="below-pic-content"></div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <!-- Text Side -->
+                        <div class="col-7 p-1">
+
+                            <h5 class=" text-light plan_name">
+                                {{ plan.name }}
+                            </h5>
+
+                            <hr class="my-2">
+
+                            <p class="small text-light">
+                                {{ plan.short_description }}
+                            </p>
+
+                            <p class="mb-1 small">
+                                <strong>Yield:</strong>
+                                {{ plan.percent_increment|floatformat:1 }}%
+                            </p>
+
+                            <p class="small">
+                                <strong>Minimum:</strong>
+
+                                {% if plan.min_amount <= 100 %} 
+                                    No Minimum 
+                                {% else %} 
+                                    $
+                                {{ plan.min_amount|floatformat:2|intcomma }} {% endif %} </p>
+                        </div>
+
+                    </div>
+
+                    <div class="activating-button px-3">
+                        <a href="" class="btn btn-primary rounded-pill mt-1 w-100 fw-bold mb-2 px-0">
+                        Activate Mandate
+                    </a>
+                    </div>
+                    
+                </div>
+            </div>
+
+        </div>
+    {% empty%}
+        <div class="text-center">
+            No available featured plan
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

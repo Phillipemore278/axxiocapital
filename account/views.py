@@ -233,3 +233,7 @@ def resend_verification_view(request):
         "token_expired": token_expired,
     }
     return render(request, "account/resend_verification.html", context)
+
+
+class UserLogoutView(LogoutView):
+    next_page = 'account:login' 

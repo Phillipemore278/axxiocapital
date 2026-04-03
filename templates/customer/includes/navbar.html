@@ -49,38 +49,44 @@
       </li>
       <!-- <li><a class="nav-link" href="#"><i class="bi bi-briefcase me-2"></i> Capital Allocation</a></li> -->
       <li>
-        <a class="nav-link {% if current_url == 'reits' %}active{% endif %}" href="">
-          <i class="bi bi-buildings me-2"></i>
-          Manage Plans
-        </a>
-      </li>
+      <a class="nav-link {% if current_url == 'active_plan_list' %}active{% endif %}" href="{% url 'customer:active_plan_list' %}">
+        <i class="bi bi-buildings me-2"></i>
+        Manage Plans
+      </a>
+    </li>
       <li>
-        <a class="nav-link {% if current_url == 'all_plans' %}active{% endif %}" href="">
+        <a class="nav-link {% if current_url == 'all_plans' %}active{% endif %}" href="{% url 'customer:all_plans' %}">
           <i class="bi bi-diagram-3 me-2"></i>
-          Asset Mandates
+          All Plans
         </a>
       </li>
-      <li>
+      <!-- <li>
         <a class="nav-link {% if current_url == 'copy_experts' %}active{% endif %}"
           href="">
           <i class="bi bi-people me-2"></i>
           Strategic Mirroring
         </a>
-      </li>
+      </li> -->
       <li>
         <a class="nav-link {% if current_url == 'settings_security' %}active{% endif %}"
-          href="">
+          href="{% url 'customer:settings_security' %}">
           <i class="bi bi-gear me-2"></i>
           Settings & Security
         </a>
       </li>
       <li>
       <a class="nav-link {% if current_url == 'wallet' %}active{% endif %}"
-        href="">
+        href="{% url 'customer:wallet' %}">
         <i class="bi bi-bank me-2"></i>
-        Finance Hub
+        Wallet
       </a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link {% if current_url == 'logout' %}active{% endif %}" href="">
+          <i class="bi bi-box-arrow-right"></i>
+          Logout
+        </a>
+      </li>
       {% else %}
       <li class="nav-item">
         <a class="nav-link {% if current_url == 'admin_dashboard' %}active{% endif %}"
@@ -159,37 +165,43 @@
     </li>
     <!-- <li><a class="nav-link" href="#"><i class="bi bi-briefcase me-2"></i> Capital Allocation</a></li> -->
     <li>
-      <a class="nav-link {% if current_url == 'reits' %}active{% endif %}" href="">
+      <a class="nav-link {% if current_url == 'active_plan_list' %}active{% endif %}" href="{% url 'customer:active_plan_list' %}">
         <i class="bi bi-buildings me-2"></i>
         Manage Plans
       </a>
     </li>
     <li>
-      <a class="nav-link {% if current_url == 'all_plans' %}active{% endif %}" href="">
+      <a class="nav-link {% if current_url == 'all_plans' %}active{% endif %}" href="{% url 'customer:all_plans' %}">
         <i class="bi bi-diagram-3 me-2"></i>
-        Asset Mandates
+        All Plans
       </a>
     </li>
-    <li>
+    <!-- <li>
       <a class="nav-link {% if current_url == 'copy_experts' %}active{% endif %}"
         href="">
         <i class="bi bi-people me-2"></i>
-        Strategic Mirroring
+        wallet
       </a>
-    </li>
+    </li> -->
     <li>
       <a class="nav-link {% if current_url == 'settings_security' %}active{% endif %}"
-        href="">
+        href="{% url 'customer:settings_security' %}">
         <i class="bi bi-gear me-2"></i>
         Settings & Security
       </a>
     </li>
     <li>
       <a class="nav-link {% if current_url == 'wallet' %}active{% endif %}"
-        href="">
+        href="{% url 'customer:wallet' %}">
         <i class="bi bi-bank me-2"></i>
-        Finance Hub
+        Wallet
       </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if current_url == 'logout' %}active{% endif %}" href="">
+          <i class="bi bi-box-arrow-right"></i>
+          Logout
+        </a>
     </li>
     {% else %}
     <li class="nav-item">

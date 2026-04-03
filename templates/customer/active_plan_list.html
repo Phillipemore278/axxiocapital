@@ -1,0 +1,189 @@
+{% extends './base.html' %}
+{% load static %}
+<!-- {% load humanize %} -->
+
+{% block content %}
+<style>
+    /* Base Plan Card */
+    .plan-card {
+        background: linear-gradient(145deg, #120c1a, #1f1630);
+        border-radius: 12px;
+        color: #fff;
+        border: 1px solid #7921f4;
+        transition: 0.3s ease;
+    }
+
+    .plan-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 15px rgba(121, 33, 244, 0.4);
+    }
+
+    /* Title */
+    .plan-title {
+        color: #aaa;
+    }
+
+    /* GOLD */
+    .plan-card.gold {
+        border-color: #f4c430;
+    }
+
+    .plan-card.gold h4 {
+        color: #f4c430;
+    }
+
+    /* REGULAR */
+    .plan-card.regular {
+        border-color: #888;
+    }
+
+    .plan-card.regular h4 {
+        color: #ccc;
+    }
+
+    /* DIAMOND */
+    .plan-card.diamond {
+        border-color: #00e0ff;
+    }
+
+    .plan-card.diamond h4 {
+        color: #00e0ff;
+    }
+
+    /* (Optional hidden future plan) */
+    .plan-card.platinum {
+        border-color: #e5e4e2;
+    }
+
+    .plan-card.platinum h4 {
+        color: #e5e4e2;
+    }
+
+    /* Progress bar background */
+    .progress {
+        height: 8px;
+        background: #2a203a;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    /* Purple progress */
+    .progress-purple {
+        background: linear-gradient(90deg, #7921f4, #9b4dff);
+        font-size: 10px;
+        text-align: right;
+        padding-right: 5px;
+    }
+
+    /* Status badge */
+    .status-active {
+        background: rgba(40, 167, 69, 0.15);
+        color: #28a745;
+        border: 1px solid #28a745;
+        font-size: 11px;
+    }
+
+</style>
+
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="col col-md-8">
+            <h4 class="mb-1 text-light">Active Plans</h4>
+            <p class="text-light mb-0">
+                Monitor and manage your active plans here.
+            </p>
+        </div>
+    </div>
+</div>
+<hr class="mt-2 pt-2 border-light">
+{% include "../notification/messages.html" %}
+<div class="container my-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="text-white">Active Plans</h5>
+        <button class="btn btn-sm btn-dark-alt">View More</button>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Gold Plan -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card plan-card gold">
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="plan-title mb-0">Gold Plan</h6>
+                        <span class="badge status-active">Active</span>
+                    </div>
+
+                    <h4 class="mt-2">$5,000</h4>
+                    <small>12% ROI • 30 Days</small>
+
+                    <!-- Progress -->
+                    <div class="progress mt-3">
+                        <div class="progress-bar progress-purple" style="width: 70%;">70%</div>
+                    </div>
+
+                    <div class="mt-3">
+                        <button class="btn btn-sm action-btn">Manage</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Regular Plan -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card plan-card regular">
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="plan-title mb-0">Regular Plan</h6>
+                        <span class="badge status-active">Active</span>
+                    </div>
+
+                    <h4 class="mt-2">$2,500</h4>
+                    <small>8% ROI • 14 Days</small>
+
+                    <!-- Progress -->
+                    <div class="progress mt-3">
+                        <div class="progress-bar progress-purple" style="width: 45%;">45%</div>
+                    </div>
+
+                    <div class="mt-3">
+                        <button class="btn btn-sm action-btn">Manage</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Diamond Plan -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card plan-card diamond">
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="plan-title mb-0">Diamond Plan</h6>
+                        <span class="badge status-active">Active</span>
+                    </div>
+
+                    <h4 class="mt-2">$8,000</h4>
+                    <small>18% ROI • 60 Days</small>
+
+                    <!-- Progress -->
+                    <div class="progress mt-3">
+                        <div class="progress-bar progress-purple" style="width: 85%;">85%</div>
+                    </div>
+
+                    <div class="mt-3">
+                        <button class="btn btn-sm action-btn">Manage</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

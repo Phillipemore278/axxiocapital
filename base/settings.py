@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'account',
     'otp',
     'customer.apps.CustomerConfig',
+    'plan',
 ]
 
 MIDDLEWARE = [

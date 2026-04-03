@@ -1,0 +1,159 @@
+{% extends "./base.html" %}
+<!-- {% load humanize %} -->
+
+{% block content %}
+<style>
+    .card{
+        background: linear-gradient(145deg, #120c1a, #1f1630);
+        border-radius: 12px;
+        color: #fff;
+        border: 1px solid #7921f4;
+        transition: 0.3s ease;
+    }
+
+    /* Force dark background */
+    .custom-table {
+        background-color: transparent !important;
+    }
+
+    .custom-table th,
+    .custom-table td {
+        background-color: transparent !important;
+        color: #fff;
+    }
+
+    /* Remove Bootstrap white */
+    .table {
+        --bs-table-bg: transparent !important;
+        --bs-table-striped-bg: transparent !important;
+        --bs-table-hover-bg: rgba(121, 33, 244, 0.05) !important;
+    }
+
+    /* Header */
+    .custom-table thead {
+        background: transparent;
+    }
+
+    /* Optional: smoother row hover */
+    .custom-table tbody tr:hover td {
+        background: rgba(121, 33, 244, 0.05) !important;
+    }
+</style>
+<!-- Page Header -->
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 mt-4">
+
+    <div class="mb-3 mb-md-0">
+        <h3 class="fw-semibold mb-0 text-light">Finance Hub</h3>
+        <small class="text-light d-block paragraphs">
+            Monitor and manage your funds and financial transactions in one place
+        </small>
+    </div>
+
+    <div>
+        <a href="" class="btn btn-success btn-sm me-2">
+            <i class="bi bi-plus-circle me-1"></i>
+            Deposit
+        </a>
+        <a href="" class="btn btn-danger btn-sm">
+            <i class="bi bi-dash-circle me-1"></i>
+            Withdraw
+        </a>
+    </div>
+
+</div>
+<hr class="border-dark">
+<!-- Balance Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="card p-3">
+            <small class="text-light">Cash Balance</small>
+            <h5 class="fw-bold">${{ portfolio.cash_balance|floatformat:2|intcomma }}</h5>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3">
+            <small class="text-light">Invested Capital</small>
+            <h5 class="fw-bold">${{ non_mirrored_total|floatformat:2|intcomma }}</h5>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3">
+            <small class="text-light">Current Investment Value</small>
+            <h5 class="fw-bold">${{ mirrored_total|floatformat:2|intcomma }}</h5>
+        </div>
+    </div>
+</div>
+
+<!-- Transactions Table -->
+<div class="card p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h6 class="fw-semibold mb-0">Transaction History</h6>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table align-middle mb-0 custom-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Balance</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for t in transactions %}
+                <tr>
+                    <td>{{ t.timestamp|date:"Y-m-d" }}</td>
+
+                    <td>
+                        {% if t.transaction_type == "DEPOSIT" %}
+                        <span class="badge bg-success">Deposit</span>
+                        {% elif t.transaction_type == "WITHDRAW" %}
+                        <span class="badge bg-danger">Withdrawal</span>
+                        {% else %}
+                        <span class="badge bg-warning">
+                            {{ t.get_transaction_type_display }}
+                        </span>
+                        {% endif %}
+                    </td>
+
+                    <td>${{ t.amount|floatformat:2|intcomma }}</td>
+
+                    <!-- Balance: if you don't store it, show placeholder -->
+                    <td>
+                        ${{ t.balance|floatformat:2|intcomma }}
+                    </td>
+
+                    <td>
+                        {% if t.status == "PENDING" %}
+                        <span class="badge bg-warning-subtle text-warning">
+                            Pending
+                        </span>
+                        {% elif t.status == "SUCCESSFUL" %}
+                        <span class="badge bg-success-subtle text-success">
+                            Successful
+                        </span>
+                        {% else %}
+                        <span class="badge bg-danger-subtle text-danger">
+                            Failed
+                        </span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No finance history yet.</td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}

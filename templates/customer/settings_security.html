@@ -1,0 +1,207 @@
+{% extends './base.html' %}
+{% load static %}
+<!-- {% load humanize %} -->
+
+{% block content %}
+<style>
+    .card{
+        background: linear-gradient(145deg, #120c1a, #1f1630);
+        border-radius: 12px;
+        color: #fff;
+        border: 1px solid #7921f4;
+        transition: 0.3s ease;
+    }
+
+    .border-success{
+        border-color: #7921f4 !important;
+    }
+    .bg-purple{
+        background: linear-gradient(145deg, #231338, #291a46);
+    }
+</style>
+<div class="container-fluid py-4">
+
+    <!-- Profile Header -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body d-flex align-items-center justify-content-between flex-wrap">
+
+            <div class="d-flex align-items-center mb-3 mb-md-1">
+                <img src="https://placehold.co/90x90" class="rounded-circle border border-3 border-success me-3"
+                    width="90" height="90" alt="User">
+
+                <div>
+                    <h4 class="mb-1">{{portfolio.user.full_name}}</h4>
+                    {% if request.user.portfolio.is_kyc_verified %}
+                    <span class="badge bg-success">Verified</span>
+                    {% else%}
+                    <span class="badge bg-warning">Not Verified</span>
+                    {% endif %}
+
+                    <!-- {% if request.user.is_vip %}
+                    <span class="badge bg-success">VIP</span>
+                    {% else%}
+                    <span class="badge bg-dark">Not VIP</span>
+                    {% endif %} -->
+
+                    <p class="text-light small mb-0">Member since {{ portfolio.created_at|date:"F d, Y" }}
+                    </p>
+                    <a href="/account/logout" class="btn btn-outline-danger rounded-pill px-4 btn-sm my-3">Sign Out</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% include "../notification/messages.html" %}
+    {% if not portfolio.is_kyc_verified %}
+    {% if portfolio.kyc and portfolio.kyc.status == "PENDING" %}
+    <div class="alert alert-info my-4">
+        <strong>KYC Under Review</strong><br>
+        Your documents are being reviewed. This usually takes 24-48 hours.
+        <a href="{% url 'customer:verify_kyc' %}" class="btn btn-sm btn-outline-warning">
+            View Update
+        </a>
+    </div>
+    {% else %}
+    <div class="alert alert-warning d-flex justify-content-between align-items-center my-4">
+        <div>
+            <strong>Verification Required</strong><br>
+            Complete identity verification to unlock full platform features, increase transaction limits, and secure
+            your account.
+        </div>
+
+        <a href="" class="btn btn-sm btn-outline-warning">
+            Verify Now
+        </a>
+    </div>
+    {% endif %}
+    {% endif %}
+
+    
+
+    <div class="row g-4">
+        <!-- Verification & Security -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-purple">
+                    <h6 class="mb-0 text-light">Verification & Security</h6>
+                </div>
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Email</span>
+                        <span class="badge bg-success">Verified</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>KYC Status</span>
+                        {% if request.user.portfolio.is_kyc_verified %}
+                        <span class="badge bg-success">Verified</span>
+                        {% else %}
+                        <span class="badge bg-warning">Not Verified</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- <div class="d-flex justify-content-between mb-5">
+                        <span>Vip Status</span>
+                        {% if request.user.is_vip %}
+                        <span class="badge bg-success">VIP</span>
+                        {% else %}
+                        <span class="badge bg-warning">Not Vip</span>
+                        {% endif %}
+                    </div> -->
+
+                    <button class="btn btn-outline-secondary btn-sm">
+                        Manage Security
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Avatar -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <img src="https://placehold.co/120x120" class="rounded-circle mb-3" width="120" height="120"
+                        alt="Profile Picture">
+
+                    <h6 class="mb-2">{{portfolio.user.nick_name}}</h6>
+                    {% if is_vip %}
+                    <p class="text-muted small">VIP Member</p>
+                    {% endif %}
+
+                    <button class="btn btn-outline-primary btn-sm mt-3 text-white">
+                        Change Photo
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Information -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-purple">
+                    <h5 class="mb-0 text-light">Update Profile Information</h5>
+                    {% include "../notification/messages.html" %}
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">First Name</label>
+                                <input type="text" class="form-control" value="John">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" class="form-control" value="Doe">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-control" value="john@example.com">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" placeholder="+1 234 567 890">
+                        </div>
+
+                        <button class="btn btn-primary rounded-pill w-100">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Change Password -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-purple">
+                    <h5 class="mb-0 text-light">Change Password</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="">
+                        {% csrf_token %}
+
+                        {% for field in password_form %}
+                        <div class="mb-3">
+                            <label class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                        {% endfor %}
+
+                        <button type="submit" class="btn btn-warning">Update Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>
+
+
+{% endblock %}

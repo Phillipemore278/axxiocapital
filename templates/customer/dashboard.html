@@ -1,6 +1,6 @@
 {% extends './base.html' %}
 {% load static %}
-<!-- {% load humanize %} -->
+{% load humanize %}
 
 {% block content %}
 <style>
@@ -344,9 +344,9 @@
         <div class="col-md-6 col-lg-3">
             <div class="card dashboard-card">
                 <div class="card-body">
-                    <h6 class="card-title">Total Balance</h6>
-                    <h3>$12,450</h3>
-                    <button class="btn btn-sm action-btn mt-2">View Details</button>
+                    <h6 class="card-title">Cash Balance</h6>
+                    <h5>${{portfolio.cash_balance|intcomma }}</h5>
+                    <button class="btn btn-sm action-btn mt-2">Deposit</button>
                 </div>
             </div>
         </div>
@@ -356,7 +356,7 @@
             <div class="card dashboard-card">
                 <div class="card-body">
                     <h6 class="card-title">Invested Amount</h6>
-                    <h3>$8,200</h3>
+                    <h5>${{non_mirrored_total|intcomma }}</h5>
                     <button class="btn btn-sm action-btn mt-2">Invest More</button>
                 </div>
             </div>
@@ -367,7 +367,7 @@
             <div class="card dashboard-card">
                 <div class="card-body">
                     <h6 class="card-title">Total Earnings</h6>
-                    <h3>$4,250</h3>
+                    <h5>${{active_earnings|intcomma }}</h5>
                     <button class="btn btn-sm action-btn mt-2">Withdraw</button>
                 </div>
             </div>
@@ -378,7 +378,7 @@
             <div class="card dashboard-card">
                 <div class="card-body">
                     <h6 class="card-title">Active Plans</h6>
-                    <h3>5</h3>
+                    <h5>{{active_plans_count}}</h5>
                     <button class="btn btn-sm action-btn mt-2">Manage</button>
                 </div>
             </div>
