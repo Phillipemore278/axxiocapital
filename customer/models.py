@@ -16,6 +16,6 @@ class Portfolio(models.Model):
     def __str__(self):
         return f"{self.user} Portfolio"
     
-    # @property
-    # def is_kyc_verified(self):
-    #     return hasattr(self, "kyc") and self.kyc.status == "VERIFIED"
+    @property
+    def is_kyc_verified(self):
+        return hasattr(self, "kyc") and self.kyc.status == "VERIFIED"

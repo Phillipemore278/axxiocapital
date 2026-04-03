@@ -346,7 +346,7 @@
                 <div class="card-body">
                     <h6 class="card-title">Cash Balance</h6>
                     <h5>${{portfolio.cash_balance|intcomma }}</h5>
-                    <button class="btn btn-sm action-btn mt-2">Deposit</button>
+                    <a href="{% url 'customer:customer_deposit' %}" class="btn btn-sm action-btn mt-2">Deposit</a>
                 </div>
             </div>
         </div>
@@ -368,7 +368,7 @@
                 <div class="card-body">
                     <h6 class="card-title">Active Earnings</h6>
                     <h5>${{active_earnings|intcomma }}</h5>
-                    <button class="btn btn-sm action-btn mt-2">Withdraw</button>
+                    <a href="{% url 'customer:customer_withdraw' %}" class="btn btn-sm action-btn mt-2">Withdraw</a>
                 </div>
             </div>
         </div>

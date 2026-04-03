@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'otp',
     'customer.apps.CustomerConfig',
     'plan',
+    'transaction',
 ]
 
 MIDDLEWARE = [
@@ -119,7 +120,7 @@ USE_I18N = True
 USE_TZ = True
 
 AUTH_USER_MODEL = 'account.User'
-# LOGIN_URL = 'frontend:login'
+LOGIN_URL = 'account:login'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/

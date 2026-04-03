@@ -1,0 +1,231 @@
+{% extends './base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<style>
+    .card{
+        background: linear-gradient(145deg, #120c1a, #1f1630);
+        border-radius: 12px;
+        color: #fff;
+        border: 1px solid #7921f4;
+        transition: 0.3s ease;
+    }
+</style>
+<div class="container-fluid mb-4 mt-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <h4 class="mb-2 text-light">Identity Verification (KYC)</h4>
+            <p class="text-light mb-0">
+                To comply with financial regulations, we require identity verification
+                before withdrawals or advanced trading features are enabled.
+            </p>
+        </div>
+    </div>
+</div>
+
+<hr class="border-light">
+
+{% if portfolio.kyc and portfolio.kyc.status == "REJECTED" %}
+<div class="alert alert-danger mb-4">
+    <h6 class="mb-1">Verification Rejected</h6>
+    <p class="mb-0">
+        {{ portfolio.kyc.rejection_reason}}
+    </p>
+</div>
+{% endif %}
+
+{% include "../notification/messages.html" %}
+
+<div class="card mb-4">
+    <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+            <small class="text-light">Verification Status</small>
+
+            {% if not portfolio.kyc %}
+            <h6 class="mb-0">Not Submitted</h6>
+
+            {% elif portfolio.kyc.status == "PENDING" %}
+            <h6 class="mb-0">Pending Review</h6>
+
+            {% elif portfolio.kyc.status == "VERIFIED" %}
+            <h6 class="mb-0">Verified</h6>
+
+            {% elif portfolio.kyc.status == "REJECTED" %}
+            <h6 class="mb-0">Rejected</h6>
+
+            {% else %}
+            <h6 class="mb-0">Not Submitted</h6>
+            {% endif %}
+        </div>
+
+        {% if not portfolio.kyc %}
+        <span class="badge bg-secondary">Incomplete</span>
+
+        {% elif portfolio.kyc.status == "PENDING" %}
+        <span class="badge bg-warning">Under Review</span>
+
+        {% elif portfolio.kyc.status == "VERIFIED" %}
+        <span class="badge bg-success">Verified</span>
+
+        {% elif portfolio.kyc.status == "REJECTED" %}
+        <span class="badge bg-danger">Rejected</span>
+
+        {% else %}
+        <span class="badge bg-dark">Incomplete</span>
+        {% endif %}
+    </div>
+</div>
+
+
+<form action="" method="post" enctype="multipart/form-data" class="pinner-form" novalidate>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger mb-4">
+        {% for error in form.non_field_errors %}
+        <div>{{ error }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Personal Information -->
+    <div class="card mb-4">
+        <div class="card-header">Personal Information</div>
+        <div class="card-body">
+            <div class="row g-3">
+
+                <div class="col-md-6">
+                    <label class="form-label">First Name</label>
+                    {{ form.first_name }}
+                    {% for error in form.first_name.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Last Name</label>
+                    {{ form.last_name }}
+                    {% for error in form.last_name.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Date of Birth</label>
+                    {{ form.date_of_birth }}
+                    {% for error in form.date_of_birth.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Nationality</label>
+                    {{ form.nationality }}
+                    {% for error in form.nationality.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Identity Document -->
+    <div class="card mb-4">
+        <div class="card-header">Identity Document</div>
+        <div class="card-body">
+            <div class="row g-3">
+
+                <div class="col-md-6">
+                    <label class="form-label">Document Type</label>
+                    {{ form.document_type }}
+                    {% for error in form.document_type.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Document Number</label>
+                    {{ form.document_number }}
+                    {% for error in form.document_number.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Upload Document</label>
+                    {{ form.document_image }}
+                    {% for error in form.document_image.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                    <small class="text-muted">
+                        Clear, full image. No screenshots or cropped edges.
+                    </small>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Proof of Address -->
+    <div class="card mb-4">
+        <div class="card-header">Proof of Address</div>
+        <div class="card-body">
+            <div class="row g-3">
+
+                <div class="col-md-12">
+                    <label class="form-label">Residential Address</label>
+                    {{ form.address }}
+                    {% for error in form.address.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">City</label>
+                    {{ form.city }}
+                    {% for error in form.city.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Country</label>
+                    {{ form.country }}
+                    {% for error in form.country.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Upload Proof of Address</label>
+                    {{ form.address_proof }}
+                    {% for error in form.address_proof.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                    <small class="text-muted">
+                        Utility bill or bank statement (issued within 3 months).
+                    </small>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="card">
+        <div class="card-body">
+            <button type="submit"
+                    class="btn btn-primary w-100 btn-sm fw-bold">
+                Submit Verification
+            </button>
+
+            <p class="small text-light mt-3 mb-0">
+                Your information is encrypted and securely stored.
+                Verification typically takes 24-72 hours.
+            </p>
+        </div>
+    </div>
+</form>
+{% endblock %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -235,5 +235,15 @@ def resend_verification_view(request):
     return render(request, "account/resend_verification.html", context)
 
 
-class UserLogoutView(LogoutView):
-    next_page = 'account:login' 
+# class UserLogoutView(LogoutView):
+#     next_page = 'account:login' 
+#     # allow GET logout
+#     http_method_names = ['get', 'post']
+
+def user_logout(request):
+    """
+    Logs out the user and redirects to the login page.
+    Works with both GET and POST requests.
+    """
+    logout(request)
+    return redirect('account:login')

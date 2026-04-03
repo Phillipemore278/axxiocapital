@@ -16,5 +16,13 @@ urlpatterns = [
 
     # order
     path('orderplan-detail/<order_id>/', views.orderplan_detail_view, name='orderplan_detail'),
+
+    # transaction
+    path('deposit/', views.customer_deposit_view, name='customer_deposit'),
+    path('user/withdraw/', views.customer_withdraw_view, name='customer_withdraw'),
+    path("wallet/get/", views.get_wallet, name="get_wallet"),
+
+    # kyc
+    path('verify-kyc/', views.verify_kyc_view, name='verify_kyc'),
     
 ]

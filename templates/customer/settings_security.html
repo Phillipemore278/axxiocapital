@@ -45,7 +45,7 @@
 
                     <p class="text-light small mb-0">Member since {{ portfolio.created_at|date:"F d, Y" }}
                     </p>
-                    <a href="/account/logout" class="btn btn-outline-danger rounded-pill px-4 btn-sm my-3">Sign Out</a>
+                    <a href="{% url 'account:logout' %}" class="btn btn-outline-danger rounded-pill px-4 btn-sm my-3">Sign Out</a>
                 </div>
             </div>
 
