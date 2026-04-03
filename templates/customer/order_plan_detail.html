@@ -1,0 +1,197 @@
+{% extends './base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<style>
+    /* Card */
+    .custom-card {
+    background: linear-gradient(145deg, #120c1a, #1f1630);
+    border: 1px solid #7921f4;
+    border-radius: 12px;
+    color: #fff;
+    }
+
+    /* Chart wrapper (controls height) */
+    .chart-wrapper {
+    height: 300px;
+    }
+
+    /* Bigger chart on mobile */
+    @media (max-width: 576px) {
+    .chart-wrapper {
+        height: 420px;
+    }
+    }
+
+    /* List */
+    .custom-list .list-group-item {
+    background: transparent;
+    color: #fff;
+    border-color: rgba(255,255,255,0.05);
+    }
+
+    /* Badge */
+    .amount-badge {
+    background: rgba(121, 33, 244, 0.15);
+    color: #7921f4;
+    border: 1px solid #7921f4;
+    }
+
+    /* Status */
+    .status-active {
+        background: rgba(40, 167, 69, 0.15);
+        color: #28a745;
+        border: 1px solid #28a745;
+    }
+
+    .bg-purple{
+        background: linear-gradient(145deg, #231338, #291a46);
+        color: #fff !important;
+    }
+</style>
+<div class="container-fluid mt-3 text-white">
+    <div class="row">
+        <div class="col-md-8">
+            <h4 class="mb-1">{{order.plan.name}}</h4>
+            <p class="text-light mb-0">
+                Monitor and manage the {{order.plan.name}} progress.
+            </p>
+        </div>
+    </div>
+</div>
+
+<hr class="mt-2 pt-2" style="border-color: rgba(232, 221, 221, 0.902);">
+
+<div class="row">
+    <div class="col-md-8">
+
+        <!-- Chart Card -->
+        <div class="card custom-card mb-4">
+            <div class="card-body">
+                <h5 class="mb-3">Progress Chart</h5>
+                <div class="chart-wrapper">
+                    <canvas id="progressChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-3 custom-card">
+            <div class="card-header bg-purple text-dark">
+                <h5>{{ order.plan.name }}</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Allocated:</strong> ${{ order.principal_amount|floatformat:2|intcomma }}</p>
+                <p><strong>Current Value:</strong> ${{ order.current_value|floatformat:2|intcomma }}</p>
+                <p><strong>Status:</strong>
+                    <span class="badge bg-success">{{ order.status }}</span>
+                </p>
+                <p><strong>Start Date:</strong> {{ order.start_at|date:"Y-m-d" }}</p>
+                <p><strong>Ends on: </strong> {{ order.end_date|date:"M d, Y" }}</p>
+                <!-- <p><strong>Start Date:</strong> {{ order.start_at|date:"Y-m-d" }}</p> -->
+            </div>
+
+            <form action="">
+                {% csrf_token%}
+                {% if not order.is_mirrowed %}
+                    <button type="submit" class="btn btn-danger btn-sm rounded-pill ms-3 mb-3 px-4">
+                    Stop and Liquidate
+                    </button>
+                {% endif %}
+            </form>
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm custom-card">
+            <div class="card-header bg-purple">
+                <h5 class="mb-0 text-light">Snapshots</h5>
+            </div>
+            <ul class="list-group list-group-flush custom-list">
+                {% for item in snapshots %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ item.snapshot_at }}
+                    <span class="badge bg-success">
+                        $ {{ item.cumulative_amount|floatformat:2|intcomma }}
+                    </span>
+                </li>
+                {% empty %}
+                <li class="list-group-item">No snapshots yet.</li>
+                {% endfor %}
+            </ul>
+            <div class="pagination mt-3">
+                <span>
+                    Page {{ snapshots.number }} of {{ snapshots.paginator.num_pages }}
+                </span>
+
+                <div>
+                    {% if snapshots.has_previous %}
+                    <a href="?page=1">&laquo; First</a>
+                    <a href="?page={{ snapshots.previous_page_number }}">Previous</a>
+                    {% endif %}
+
+                    {% if snapshots.has_next %}
+                    <a href="?page={{ snapshots.next_page_number }}">Next</a>
+                    <a href="?page={{ snapshots.paginator.num_pages }}">Last &raquo;</a>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('progressChart').getContext('2d');
+
+// Gradient
+const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+gradient.addColorStop(0, 'rgba(121, 33, 244, 0.6)');
+gradient.addColorStop(1, 'rgba(121, 33, 244, 0.05)');
+
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ labels|safe }},
+        datasets: [{
+            label: 'Portfolio Value',
+            data: {{ values|safe }},
+            borderColor: '#7921f4',
+            backgroundColor: gradient,
+            fill: true,
+            tension: 0.4,
+
+            borderWidth: window.innerWidth < 576 ? 3 : 2,
+            pointRadius: window.innerWidth < 576 ? 5 : 3,
+            pointBackgroundColor: '#fff',
+            pointBorderColor: '#7921f4'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false, // VERY IMPORTANT
+
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+
+        scales: {
+            x: {
+                ticks: { color: '#aaa' },
+                grid: { color: 'rgba(255,255,255,0.05)' }
+            },
+            y: {
+                ticks: { color: '#aaa' },
+                grid: { color: 'rgba(255,255,255,0.05)' }
+            }
+        }
+    }
+});
+</script>
+
+
+{% endblock %}

@@ -10,5 +10,11 @@ urlpatterns = [
     path('plan-list/', views.all_plans_view, name='all_plans'),
     path('settings-and-security/', views.settings_security, name='settings_security'),
     path('wallet/', views.wallet_view, name='wallet'),
+
+    # plan
+    path('activate-plan/<plan_id>/', views.activate_plan_view, name='activate_plan'),
+
+    # order
+    path('orderplan-detail/<order_id>/', views.orderplan_detail_view, name='orderplan_detail'),
     
 ]

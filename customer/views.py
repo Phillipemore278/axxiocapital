@@ -49,7 +49,7 @@ def customer_dashboard_view(request):
         "current_url": request.resolver_match.url_name,
         "portfolio": portfolio,
         "non_mirrored_total": non_mirrored_total,
-        "active_plans": all_active_plans,
+        "active_plans": all_active_plans[:3],
         "active_plans_count": all_active_plans.count(),
         "active_earnings": active_earnings,
     }
@@ -117,3 +117,82 @@ def wallet_view(request):
         "mirrored_total": mirrored_total,
         # "transactions": transactions,
     })
+
+
+# plan side
+@login_required
+def activate_plan_view(request, plan_id):
+    portfolio = request.user.portfolio
+    plan = get_object_or_404(Plan, id=plan_id)
+
+    if request.method == "POST":
+        allocated_cash = Decimal(request.POST.get("allocated_cash", "0"))
+
+        if allocated_cash < plan.min_amount: 
+            messages.error(request, f"Minimum amount for this plan is ${plan.min_amount}.") 
+            return redirect('customer:activate_plan', plan_id=plan.pk)
+        
+        if allocated_cash > portfolio.cash_balance:
+            messages.error(
+                request,
+                "Allocated cash exceeds your available cash balance."
+            )
+            return redirect('customer:activate_plan', plan_id=plan.pk)
+        
+        # 1️⃣ Deduct allocated cash from follower only once
+        portfolio.cash_balance -= allocated_cash
+        portfolio.save(update_fields=['cash_balance'])
+
+        order = OrderPlan.objects.create( 
+            portfolio=portfolio, 
+            plan=plan, 
+            principal_amount=allocated_cash, 
+            current_value=allocated_cash, 
+            start_at=timezone.now(), 
+            status=OrderPlan.STATUS_ACTIVE, 
+        )
+
+        messages.success(request, f"'{plan.name}' activated with ${allocated_cash}.") 
+        return redirect('customer:customer_dashboard')
+
+    return render(
+        request,
+        "customer/activate_plan.html",
+        {
+            "plan": plan,
+            "portfolio": portfolio
+        }
+    )
+
+
+@login_required
+def orderplan_detail_view(request, order_id):
+    portfolio = request.user.portfolio
+    order = get_object_or_404(OrderPlan, pk=order_id, portfolio=portfolio) 
+    
+    snapshots_qs = order.items.order_by('snapshot_at')
+
+    # -------- Pagination --------
+    paginator = Paginator(snapshots_qs, 10)  # Show 10 snapshots per page
+    page_number = request.GET.get('page')
+    snapshots = paginator.get_page(page_number)
+
+    # -------- Chart Data (Optional: Use ALL snapshots or only current page) --------
+    # If you want chart to show ALL data:
+    all_snapshots = snapshots_qs
+
+    labels = [item.snapshot_at.strftime("%Y-%m-%d") for item in all_snapshots]
+    values = [float(item.cumulative_amount or order.principal_amount) for item in all_snapshots]
+
+    context = { 
+        'order': order, 
+        'snapshots': snapshots,   # paginated snapshots
+        'labels': labels,
+        'values': values,
+    }
+
+    return render(
+        request,
+        "customer/order_plan_detail.html",
+        context
+    )

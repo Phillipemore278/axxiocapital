@@ -3,6 +3,7 @@ from decimal import Decimal, ROUND_HALF_EVEN
 from django.conf import settings
 from django.db import models, transaction
 from django.utils import timezone
+from datetime import timedelta
 
 class Plan(models.Model):
 
@@ -114,6 +115,38 @@ class OrderPlan(models.Model):
 
         roi = ((self.current_value - self.principal_amount) / self.principal_amount) * Decimal('100')
         return roi.quantize(Decimal('0.01'), rounding=ROUND_HALF_EVEN)
+    
+    @property
+    def progress_percent(self):
+        if not self.plan.duration_days:
+            return 0
+
+        start = self.start_at
+        end = start + timedelta(days=self.plan.duration_days)
+        now = timezone.now()
+
+        total_duration = (end - start).total_seconds()
+        elapsed = (now - start).total_seconds()
+
+        progress = (elapsed / total_duration) * 100 if total_duration > 0 else 0
+        progress = max(0, min(progress, 100))
+
+        return round(progress)
+    
+    @property
+    def end_date(self):
+        if not self.plan.duration_days:
+            return None
+        return self.start_at + timedelta(days=self.plan.duration_days)
+    
+    @property
+    def days_remaining(self):
+        if not self.plan.duration_days:
+            return 0
+
+        end = self.start_at + timedelta(days=self.plan.duration_days)
+        remaining = end - timezone.now()
+        return max(remaining.days, 0)
 
 
 class OrderPlanItem(models.Model):
