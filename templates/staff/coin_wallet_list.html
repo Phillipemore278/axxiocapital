@@ -1,0 +1,110 @@
+{% extends "../customer/base.html" %}
+
+{% block content %}
+<style>
+    .card{
+        background: linear-gradient(145deg, #120c1a, #1f1630);
+        border-radius: 12px;
+        color: #fff;
+        border: 1px solid #7921f4;
+        transition: 0.3s ease;
+    }
+
+    /* Force dark background */
+    .custom-table {
+        background-color: transparent !important;
+    }
+
+    .custom-table th,
+    .custom-table td {
+        background-color: transparent !important;
+        color: #fff;
+    }
+
+    /* Remove Bootstrap white */
+    .table {
+        --bs-table-bg: transparent !important;
+        --bs-table-striped-bg: transparent !important;
+        --bs-table-hover-bg: rgba(121, 33, 244, 0.05) !important;
+    }
+
+    /* Header */
+    .custom-table thead {
+        background: transparent;
+    }
+
+    /* Optional: smoother row hover */
+    .custom-table tbody tr:hover td {
+        background: rgba(121, 33, 244, 0.05) !important;
+    }
+</style>
+<div class="container my-4">
+
+  {% include "../notification/messages.html" %}
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="text-light d-none d-md-block">Coins & Wallets</h4>
+    <div>
+      <a href="{% url 'staff:admin_coin_create' %}" class="btn btn-primary btn-sm me-2">
+        + Add Coin
+      </a>
+      <a href="{% url 'staff:admin_wallet_create' %}" class="btn btn-success btn-sm">
+        + Add Wallet
+      </a>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle custom-table ">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Coin</th>
+              <th>Symbol</th>
+              <!-- <th>Network</th> -->
+              <th>Wallet Address</th>
+              <!-- <th>QR Code</th> -->
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for coin in coins %}
+              {% for wallet in coin.wallets.all %}
+                <tr>
+                  <td>{{ forloop.parentloop.counter }}.{{ forloop.counter }}</td>
+                  <td>{{ coin.name }}</td>
+                  <td>{{ coin.symbol }}</td>
+                  <!-- <td>{{ coin.network|default:"-" }}</td> -->
+                  <td>{{ wallet.wallet_address }}</td>
+                  <!-- <td>
+                    {% if wallet.qr_code %}
+                      <img src="{{ wallet.qr_code.url }}" alt="QR" style="max-width: 80px;">
+                    {% else %}
+                      -
+                    {% endif %}
+                  </td> -->
+                  <td>
+                    <!-- <a href="{% url 'staff:admin_coin_edit' coin.pk %}" class="btn btn-sm btn-outline-primary">Edit Coin</a> -->
+                    <a href="{% url 'staff:admin_wallet_edit' wallet.pk %}" class="btn btn-sm btn-outline-success">Edit Wallet</a>
+                    <a href="{% url 'staff:wallet_delete' wallet.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="7" class="text-center">No wallets found for {{ coin.name }}</td>
+                </tr>
+              {% endfor %}
+            {% empty %}
+              <tr>
+                <td colspan="7" class="text-center">No coins found.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div> <!-- /.table-responsive -->
+    </div>
+  </div>
+</div>
+{% endblock %}

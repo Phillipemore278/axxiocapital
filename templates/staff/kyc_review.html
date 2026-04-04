@@ -1,0 +1,122 @@
+{% extends "../customer/base.html" %}
+
+
+{% block content %}
+<style>
+    .card{
+        background: linear-gradient(145deg, #120c1a, #1f1630);
+        border-radius: 12px;
+        color: #fff;
+        border: 1px solid #7921f4;
+        transition: 0.3s ease;
+    }
+</style>
+<h4 class="mt-5 text-light">
+    KYC Review — {{ kyc.portfolio.user.email }}
+</h4>
+<hr class="border-dark mt-0 mb-3">
+<div class="card mb-4">
+    <div class="card-body d-flex justify-content-between align-items-center">
+
+        <div>
+            <small class="text-light">Verification Status</small>
+            <h5 class="mb-0">
+                {{ kyc.get_status_display }}
+            </h5>
+
+            {% if kyc.submitted_at %}
+            <small class="text-light">
+                Submitted: {{ kyc.submitted_at }}
+            </small>
+            {% endif %}
+        </div>
+
+        <span class="badge
+            {% if kyc.status == 'VERIFIED' %}bg-success
+            {% elif kyc.status == 'PENDING' %}bg-warning
+            {% elif kyc.status == 'REJECTED' %}bg-danger
+            {% else %}bg-secondary{% endif %}
+        ">
+            {{ kyc.get_status_display }}
+        </span>
+
+    </div>
+</div>
+
+{% if kyc.status == 'REJECTED' %}
+<div class="alert alert-danger">
+    <strong>Rejection Reason</strong><br>
+    {{ kyc.rejection_reason }}
+</div>
+{% endif %}
+
+<div class="card mb-4">
+    <div class="card-header">Personal Information</div>
+    <div class="card-body">
+
+        <p><strong>Name:</strong> {{ kyc.first_name }} {{ kyc.last_name }}</p>
+        <p><strong>Date of Birth:</strong> {{ kyc.date_of_birth }}</p>
+        <p><strong>Nationality:</strong> {{ kyc.nationality }}</p>
+
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">Identity Document</div>
+
+    <div class="card-body">
+
+        <p><strong>Type:</strong> {{ kyc.get_document_type_display }}</p>
+        <p><strong>Number:</strong> {{ kyc.document_number }}</p>
+
+        {% if kyc.document_image %}
+        <img src="{{ kyc.document_image.url }}" class="img-fluid border rounded" style="max-width:400px;">
+        {% endif %}
+
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">Proof of Address</div>
+
+    <div class="card-body">
+
+        <p><strong>Address:</strong> {{ kyc.address }}</p>
+        <p><strong>City:</strong> {{ kyc.city }}</p>
+        <p><strong>Country:</strong> {{ kyc.country }}</p>
+
+        {% if kyc.address_proof %}
+        <img src="{{ kyc.address_proof.url }}" class="img-fluid border rounded" style="max-width:400px;">
+        {% endif %}
+
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-header">Review Action</div>
+
+    <div class="card-body">
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Rejection Reason (required if rejecting)</label>
+                <textarea name="rejection_reason" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" name="action" value="approve" class="btn btn-success">
+                    Approve
+                </button>
+
+                <button type="submit" name="action" value="reject" class="btn btn-danger">
+                    Reject
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

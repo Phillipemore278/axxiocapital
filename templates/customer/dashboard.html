@@ -336,7 +336,7 @@
     </div>
 </div>
 <hr class="border-light mb-1">
-
+{% include "../notification/messages.html" %}
 <div class="container my-4">
     <div class="row g-4">
 
@@ -367,7 +367,7 @@
             <div class="card dashboard-card">
                 <div class="card-body">
                     <h6 class="card-title">Active Earnings</h6>
-                    <h5>${{active_earnings|intcomma }}</h5>
+                    <h5>${{active_earnings|floatformat:2|intcomma }}</h5>
                     <a href="{% url 'customer:customer_withdraw' %}" class="btn btn-sm action-btn mt-2">Withdraw</a>
                 </div>
             </div>
@@ -412,25 +412,22 @@
 
                     <!-- Center Text -->
                     <div class="chart-center-text">
-                        <h4>$12,450</h4>
+                        <h4>${{ allocation_total|floatformat:0|intcomma }}</h4>
                         <small>Total</small>
                     </div>
                 </div>
 
                 <!-- Legend -->
                 <div class="mt-4">
+                    {% for item in allocation_items %}
                     <div class="d-flex justify-content-between small mb-2">
-                        <span><span class="dot purple"></span> Crypto Plan</span>
-                        <span>$5,000</span>
+                        <span>
+                            <span class="dot {% cycle 'purple' 'blue' 'pink' 'yellow' 'green' %}"></span>
+                            {{ item.label }} Plan
+                        </span>
+                        <span>${{ item.value|floatformat:2|intcomma }}</span>
                     </div>
-                    <div class="d-flex justify-content-between small mb-2">
-                        <span><span class="dot blue"></span> Real Estate</span>
-                        <span>$4,000</span>
-                    </div>
-                    <div class="d-flex justify-content-between small mb-2">
-                        <span><span class="dot pink"></span> Stocks</span>
-                        <span>$3,450</span>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -440,26 +437,33 @@
             <div class="card chart-card p-3">
                 <h5 class="mb-3">Allocation Summary</h5>
 
+                {% if best_performing %}
                 <div class="summary-item mb-3">
                     <small>Best Performing</small>
-                    <h6 class="text-success">Crypto Plan ↑ +18%</h6>
+                    <h6 class="text-success">
+                        {{ best_performing.label }} ↑ {{ best_performing.roi|floatformat:2 }}%
+                    </h6>
                 </div>
+                {% endif %}
 
+                {% if largest_allocation %}
                 <div class="summary-item mb-3">
                     <small>Largest Allocation</small>
-                    <h6>Real Estate ($4,000)</h6>
+                    <h6>{{ largest_allocation.label }} (${{ largest_allocation.value|floatformat:2|intcomma }})</h6>
                 </div>
+                {% endif %}
 
+                {% if lowest_allocation %}
                 <div class="summary-item mb-3">
                     <small>Lowest Allocation</small>
-                    <h6>Stocks ($3,450)</h6>
+                    <h6>{{ lowest_allocation.label }} (${{ lowest_allocation.value|floatformat:2|intcomma }})</h6>
                 </div>
+                {% endif %}
 
                 <div class="summary-item">
                     <small>Diversification Score</small>
-                    <h6 class="text-warning">Moderate</h6>
+                    <h6 class="text-warning">{{ diversification }}</h6>
                 </div>
-
             </div>
         </div>
 
@@ -502,7 +506,7 @@
                     <small>Ends on {{ plan.end_date|date:"M d, Y" }}</small>
 
                     <div class="mt-3">
-                        <button class="btn btn-sm action-btn">Manage</button>
+                        <a href="{% url 'customer:orderplan_detail' plan.id %}" class="btn btn-sm action-btn">Manage</a>
                     </div>
 
                 </div>
@@ -591,10 +595,10 @@
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            labels: {{ chart_labels|safe }},
             datasets: [{
                 label: 'Portfolio Value',
-                data: [5000, 7000, 6500, 9000, 12000, 12450],
+                data: {{ chart_data|safe }},
                 borderColor: '#7921f4',
                 backgroundColor: gradient,
                 fill: true,
@@ -607,21 +611,11 @@
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false, // VERY IMPORTANT
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
             scales: {
-                x: {
-                    ticks: { color: '#aaa' },
-                    grid: { color: 'rgba(255,255,255,0.05)' }
-                },
-                y: {
-                    ticks: { color: '#aaa' },
-                    grid: { color: 'rgba(255,255,255,0.05)' }
-                }
+                x: { ticks: { color: '#aaa' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                y: { ticks: { color: '#aaa' }, grid: { color: 'rgba(255,255,255,0.05)' } }
             }
         }
     });
@@ -633,26 +627,18 @@
     new Chart(ctx2, {
         type: 'doughnut',
         data: {
-            labels: ['Crypto', 'Real Estate', 'Stocks'],
+            labels: {{ allocation_labels|safe }},
             datasets: [{
-                data: [5000, 4000, 3450],
-                backgroundColor: [
-                    '#7921f4',
-                    '#00c2ff',
-                    '#ff4ecd'
-                ],
+                data: {{ allocation_data|safe }},
+                backgroundColor: ['#7921f4','#00c2ff','#ff4ecd','#ffc107','#28a745'],
                 borderWidth: 0
             }]
         },
         options: {
-            cutout: '70%', // makes it donut
+            cutout: '70%',
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            }
+            plugins: { legend: { display: false } }
         }
     });
 </script>

@@ -75,13 +75,21 @@ class OrderPlan(models.Model):
     plan = models.ForeignKey(Plan, on_delete=models.PROTECT)
     principal_amount = models.DecimalField(max_digits=20, decimal_places=2)
     current_value = models.DecimalField(max_digits=20, decimal_places=2)
+    monthly_percent = models.DecimalField(
+        max_digits=8,
+        decimal_places=4,
+        null=True,
+        blank=True
+    )
+
     start_at = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_ACTIVE)
     is_mirrowed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    
     class Meta:
+        ordering = ['-created_at']
         indexes = [
             models.Index(fields=['status', 'start_at']),
         ]
@@ -116,6 +124,20 @@ class OrderPlan(models.Model):
         roi = ((self.current_value - self.principal_amount) / self.principal_amount) * Decimal('100')
         return roi.quantize(Decimal('0.01'), rounding=ROUND_HALF_EVEN)
     
+    def compute_monthly_percent(self):
+        start_date = self.start_at.date()
+        end_date = start_date + timedelta(days=self.plan.duration_days)
+
+        total_days = (end_date - start_date).days + 1
+        daily_percent = Decimal(self.plan.percent_increment) / Decimal(total_days)
+
+        today = start_date
+        days_in_month = 30  # average month approximation
+
+        monthly_percent = daily_percent * Decimal(days_in_month)
+
+        return monthly_percent
+    
     @property
     def progress_percent(self):
         if not self.plan.duration_days:
@@ -147,6 +169,12 @@ class OrderPlan(models.Model):
         end = self.start_at + timedelta(days=self.plan.duration_days)
         remaining = end - timezone.now()
         return max(remaining.days, 0)
+    
+    def save(self, *args, **kwargs):
+        if not self.monthly_percent:
+            self.monthly_percent = self.compute_monthly_percent()
+
+        super().save(*args, **kwargs)
 
 
 class OrderPlanItem(models.Model):
@@ -166,6 +194,7 @@ class OrderPlanItem(models.Model):
 
     def __str__(self):
         return f"Snapshot {self.snapshot_at} for OrderPlan {self.order_plan_id}"
+    
 
 
 class TransactionLog(models.Model):

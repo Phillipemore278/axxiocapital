@@ -1,3 +1,4 @@
 django==4.2
 qrcode
 pillow
+python-dotenv

@@ -1,0 +1,63 @@
+{% extends "./base.html" %}
+
+{% block title %}Delete Customer{% endblock %}
+
+{% block content %}
+<style>
+    .card{
+        background: linear-gradient(145deg, #120c1a, #1f1630);
+        border-radius: 12px;
+        color: #fff;
+        border: 1px solid #7921f4;
+        transition: 0.3s ease;
+    }
+</style>
+
+<div class="container my-4">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+
+            <div class="card border-danger">
+                <div class="card-body">
+                    <h4 class="text-center text-danger">Liquidate {{ order.plan.name }}</h4>
+                    <hr>
+
+                    {% include "../notification/messages.html" %}
+
+                    <p >
+                        Are you sure you want to liquidate this
+                        <strong>{{ order.plan.name }}</strong>?
+                        <br>
+                        <span class="text-danger small">
+                            This cannot be undone.
+                        </span>
+                    </p>
+
+
+                    <form method="post" class="pinner-form" novalidate>
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn btn-danger w-100 btn-sm fw-bold mb-2"
+                            data-spinner-text="Deleting..."
+                            data-spinner-class="btn-danger w-100"
+                        >
+                            Continue
+                        </button>
+
+                        <a
+                            href="{% url 'customer:orderplan_detail' order.id %}"
+                            class="btn btn-secondary w-100 btn-sm fw-bold"
+                        >
+                            Cancel
+                        </a>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

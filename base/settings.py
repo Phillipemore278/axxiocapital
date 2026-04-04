@@ -131,3 +131,8 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+
+
+LOGIN_OTP_ENABLED = True
+SITE_NAME = "Axxio Capital"
+SITE_DOMAIN = "noveraonline.com"

@@ -1,0 +1,111 @@
+{% extends "../customer/base.html" %}
+
+{% block content %}
+<style>
+    .card{
+        background: linear-gradient(145deg, #120c1a, #1f1630);
+        border-radius: 12px;
+        color: #fff;
+        border: 1px solid #7921f4;
+        transition: 0.3s ease;
+    }
+
+    /* Force dark background */
+    .custom-table {
+        background-color: transparent !important;
+    }
+
+    .custom-table th,
+    .custom-table td {
+        background-color: transparent !important;
+        color: #fff;
+    }
+
+    /* Remove Bootstrap white */
+    .table {
+        --bs-table-bg: transparent !important;
+        --bs-table-striped-bg: transparent !important;
+        --bs-table-hover-bg: rgba(121, 33, 244, 0.05) !important;
+    }
+
+    /* Header */
+    .custom-table thead {
+        background: transparent;
+    }
+
+    /* Optional: smoother row hover */
+    .custom-table tbody tr:hover td {
+        background: rgba(121, 33, 244, 0.05) !important;
+    }
+</style>
+{% include "../notification/messages.html" %}
+<div class="row pt-5">
+    <div class="col-5 col-sm-8">
+        <h4 class="text-light">Kyc Submissions List</h4>
+    </div>
+</div>
+<hr class="border-light">
+<div class="card">
+    <div class="card-header">
+        KYC Submissions
+    </div>
+
+    <div class="table-responsive">
+        <table class="table align-middle mb-0 custom-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Submitted</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for kyc in kycs %}
+                <tr>
+                    <td>
+                        {{ kyc.first_name }} {{ kyc.last_name }}
+                    </td>
+
+                    <td>
+                        {{ kyc.portfolio.user.email }}
+                    </td>
+
+                    <td>
+                        {% if kyc.status == "PENDING" %}
+                        <span class="badge bg-warning">Pending</span>
+                        {% elif kyc.status == "VERIFIED" %}
+                        <span class="badge bg-success">Verified</span>
+                        {% elif kyc.status == "REJECTED" %}
+                        <span class="badge bg-danger">Rejected</span>
+                        {% else %}
+                        <span class="badge bg-secondary">Not Submitted</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {{ kyc.submitted_at|date:"Y-m-d" }}
+                    </td>
+
+                    <td>
+                        <a href="{% url 'staff:admin_kyc_review' kyc.pk %}" class="btn btn-sm btn-primary">
+                            Review
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">
+                        No KYC requests found.
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+</div>
+{% endblock %}

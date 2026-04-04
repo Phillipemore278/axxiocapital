@@ -16,7 +16,7 @@ from .forms import KYCForm
 from account.models import KYC
 # from account.forms import BootstrapPasswordChangeForm, VIPRequestForm
 from account.forms import BootstrapPasswordChangeForm
-from plan.models import Plan, OrderPlan, OrderPlanItem
+from plan.models import Plan, OrderPlan, OrderPlanItem, TransactionLog
 from transaction.forms import CustomerTransactionForm
 # from copytrade.models import CopyRelationship
 from transaction.models import Coin, Wallet
@@ -45,6 +45,75 @@ def customer_dashboard_view(request):
         status=OrderPlan.STATUS_ACTIVE
     ).select_related("plan")
 
+    # 2️⃣ Portfolio performance data for chart
+    # Aggregate snapshots by date across all orders
+    snapshots = (
+        OrderPlanItem.objects.filter(order_plan__portfolio=portfolio)
+        .annotate(date=TruncDate('snapshot_at'))
+        .values('date')
+        .annotate(total_value=Sum('cumulative_amount'))
+        .order_by('date')
+    )
+
+    labels = [s['date'].strftime("%b %d") for s in snapshots]
+    data = [float(s['total_value'] + portfolio.cash_balance) for s in snapshots]  # include cash if desired
+
+     # --- Donut Chart Data ---
+    allocation = (
+        OrderPlan.objects.filter(
+            portfolio=portfolio,
+            status=OrderPlan.STATUS_ACTIVE
+        )
+        .values('plan__plantype')
+        .annotate(total_allocated=Sum('principal_amount'))
+        .order_by('plan__plantype')
+    )
+
+    # Prepare combined list of dicts for template
+    allocation_items = [
+        {
+            'label': a['plan__plantype'].title(),
+            'value': float(a['total_allocated']),
+        }
+        for a in allocation
+    ]
+
+    allocation_labels = [item['label'] for item in allocation_items]
+    allocation_data = [item['value'] for item in allocation_items]
+    allocation_total = sum(allocation_data)
+
+
+    # Determine Largest / Lowest Allocation
+    if allocation_items:
+        largest_allocation = max(allocation_items, key=lambda x: x['value'])
+        lowest_allocation = min(allocation_items, key=lambda x: x['value'])
+    else:
+        largest_allocation = lowest_allocation = None
+
+    # Determine Best Performing (highest ROI among active plans)
+    active_orders = OrderPlan.objects.filter(
+        portfolio=portfolio,
+        status=OrderPlan.STATUS_ACTIVE
+    )
+    best_performing = None
+    best_roi = None
+    if active_orders.exists():
+        best_order = max(active_orders, key=lambda o: o.get_roi())
+        best_performing = {
+            'label': best_order.plan.name,
+            'roi': best_order.get_roi()
+        }
+
+    # Optional: Simple Diversification Score
+    num_plans = len(allocation_items)
+    if num_plans <= 1:
+        diversification = "Low"
+    elif num_plans <= 3:
+        diversification = "Moderate"
+    else:
+        diversification = "High"
+
+
     context = {
         "current_url": request.resolver_match.url_name,
         "portfolio": portfolio,
@@ -52,6 +121,17 @@ def customer_dashboard_view(request):
         "active_plans": all_active_plans[:3],
         "active_plans_count": all_active_plans.count(),
         "active_earnings": active_earnings,
+        'totals': totals,
+        'chart_labels': labels,
+        'chart_data': data,
+        'allocation_items': allocation_items,
+        'allocation_labels': allocation_labels,
+        'allocation_data': allocation_data,
+        'allocation_total': allocation_total,
+        'largest_allocation': largest_allocation,
+        'lowest_allocation': lowest_allocation,
+        'best_performing': best_performing,
+        'diversification': diversification,
     }
     return render(request, "customer/dashboard.html", context)
 
@@ -102,20 +182,20 @@ def wallet_view(request):
         portfolio=portfolio
     ).aggregate(
         non_mirrored=Sum('principal_amount', filter=Q(is_mirrowed=False)),
-        mirrored=Sum('principal_amount', filter=Q(is_mirrowed=True))
+        mirrored=Sum('current_value', filter=Q(is_mirrowed=False))
     )
 
     non_mirrored_total = totals['non_mirrored'] or 0
     mirrored_total = totals['mirrored'] or 0
 
-    # transactions = portfolio.transactions.all()
+    transactions = portfolio.transactions.all()
 
     return render(request, "customer/wallet.html", {
         "current_url": "wallet",
         "portfolio": portfolio,
         "non_mirrored_total": non_mirrored_total,
         "mirrored_total": mirrored_total,
-        # "transactions": transactions,
+        "transactions": transactions,
     })
 
 
@@ -171,9 +251,10 @@ def orderplan_detail_view(request, order_id):
     order = get_object_or_404(OrderPlan, pk=order_id, portfolio=portfolio) 
     
     snapshots_qs = order.items.order_by('snapshot_at')
+    snapshots_asc = order.items.order_by('-snapshot_at')
 
     # -------- Pagination --------
-    paginator = Paginator(snapshots_qs, 10)  # Show 10 snapshots per page
+    paginator = Paginator(snapshots_asc, 10)  # Show 10 snapshots per page
     page_number = request.GET.get('page')
     snapshots = paginator.get_page(page_number)
 
@@ -189,12 +270,61 @@ def orderplan_detail_view(request, order_id):
         'snapshots': snapshots,   # paginated snapshots
         'labels': labels,
         'values': values,
+        # 'snapshots_asc':snapshots_asc,
     }
 
     return render(
         request,
         "customer/order_plan_detail.html",
         context
+    )
+
+
+@login_required
+def liquidate_plan_view(request, order_id):
+    """
+    Liquidate an OrderPlan:
+    - Refund the current value to the user's cash balance
+    - Delete the order plan
+    - Log the transaction
+    """
+    order = get_object_or_404(OrderPlan, pk=order_id)
+    portfolio = order.portfolio
+
+    if request.method == "POST":
+        with transaction.atomic():
+            refunded_amount = order.current_value
+
+            # 1️⃣ Add back to user's cash balance
+            portfolio.cash_balance += refunded_amount
+            portfolio.save(update_fields=['cash_balance'])
+
+            # 2️⃣ Log the liquidation as a transaction
+            TransactionLog.objects.create(
+                order_plan=order,
+                before_value=order.current_value,
+                change_amount=refunded_amount,
+                after_value=portfolio.cash_balance,
+                reason=f"Liquidated '{order.plan.name}'",
+                created_by=request.user
+            )
+
+            # 3️⃣ Delete the OrderPlan
+            order.delete()
+
+        messages.success(
+            request,
+            f"'{order.plan.name}' has been liquidated. ${refunded_amount} returned to your cash balance."
+        )
+        return redirect('customer:customer_dashboard')
+
+    return render(
+        request,
+        "customer/liquidate_plan.html",
+        {
+            "order": order,
+            "portfolio": portfolio
+        }
     )
 
 

@@ -16,6 +16,7 @@ urlpatterns = [
 
     # order
     path('orderplan-detail/<order_id>/', views.orderplan_detail_view, name='orderplan_detail'),
+    path('liquidate-plan/<order_id>/', views.liquidate_plan_view, name='liquidate_plan'),
 
     # transaction
     path('deposit/', views.customer_deposit_view, name='customer_deposit'),

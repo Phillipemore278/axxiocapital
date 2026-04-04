@@ -95,10 +95,10 @@
             </div>
             <div class="card-footer bg-purple border-0">
                 <div class="d-flex justify-content-between">
-                    <a href="" class="btn btn-success btn-sm">
+                    <a href="{% url 'staff:snapshot_positive' order.id %}" class="btn btn-success btn-sm">
                         <i class="bi bi-play-fill"></i> Spin Up
                     </a>
-                    <a href="" class="btn btn-warning btn-sm">
+                    <a href="{% url 'staff:snapshot_negative' order.id %}" class="btn btn-warning btn-sm">
                         <i class="bi bi-pause-fill"></i> Spin Down
                     </a>
                     
