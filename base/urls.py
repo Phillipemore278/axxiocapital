@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -9,3 +11,4 @@ urlpatterns = [
     path('portfolio/', include('customer.urls', namespace='customer')),
     path('staff/', include('staff.urls', namespace='staff')),
 ]
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

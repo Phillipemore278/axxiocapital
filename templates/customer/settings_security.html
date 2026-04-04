@@ -178,9 +178,10 @@
             <div class="card shadow-sm">
                 <div class="card-header bg-purple">
                     <h5 class="mb-0 text-light">Change Password</h5>
+                    {% include "../notification/messages.html" %}
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="">
+                    <form method="POST" action="{% url 'customer:change_password' %}">
                         {% csrf_token %}
 
                         {% for field in password_form %}

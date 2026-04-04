@@ -14,7 +14,6 @@ from datetime import datetime
 from .models import Portfolio
 from .forms import KYCForm
 from account.models import KYC
-# from account.forms import BootstrapPasswordChangeForm, VIPRequestForm
 from account.forms import BootstrapPasswordChangeForm
 from plan.models import Plan, OrderPlan, OrderPlanItem, TransactionLog
 from transaction.forms import CustomerTransactionForm
@@ -164,12 +163,12 @@ def all_plans_view(request):
 @login_required
 def settings_security(request):
     portfolio = get_object_or_404(Portfolio, user=request.user)
-    # password_form = BootstrapPasswordChangeForm(portfolio.user)
+    password_form = BootstrapPasswordChangeForm(portfolio.user)
 
     context = {
         "current_url": request.resolver_match.url_name,
         'portfolio': portfolio,
-        # "password_form":password_form,
+        "password_form":password_form,
     }
     return render(request, "customer/settings_security.html", context)
 
@@ -501,3 +500,24 @@ def verify_kyc_view(request):
             'current_url': request.resolver_match.url_name,
         }
     )
+
+
+@login_required
+def change_password(request):
+    if request.method != "POST":
+        return redirect("customer:settings_security")
+
+    form = BootstrapPasswordChangeForm(request.user, request.POST)
+
+    if form.is_valid():
+        user = form.save()
+        update_session_auth_hash(request, user)
+        messages.info(request, "Password updated successfully.")
+    else:
+        # Store form errors in messages
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.info(request, f"{error}")
+
+    # return redirect("customer:dashboard")
+    return redirect("customer:settings_security")

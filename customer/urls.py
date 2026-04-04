@@ -25,5 +25,8 @@ urlpatterns = [
 
     # kyc
     path('verify-kyc/', views.verify_kyc_view, name='verify_kyc'),
+
+    # auth
+    path('change_password/', views.change_password, name='change_password'),
     
 ]

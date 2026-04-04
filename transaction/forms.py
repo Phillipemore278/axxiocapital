@@ -35,7 +35,7 @@ class CustomerTransactionForm(forms.ModelForm):
             'destination_bank',
             'account_number',
             'wallet_id',
-            # 'coin_type',
+            'coin_type',
         ]
 
         widgets = {
@@ -45,7 +45,7 @@ class CustomerTransactionForm(forms.ModelForm):
             'note': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Enter note (optional)'}),
             'destination_bank': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Destination Bank'}),
             'account_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Account Number'}),
-            # 'coin_type': forms.Select(attrs={'class': 'form-select'}),
+            'coin_type': forms.Select(attrs={'class': 'form-select'}),
             'wallet_id': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Wallet ID'}),
         }
 

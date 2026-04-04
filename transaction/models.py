@@ -127,12 +127,12 @@ class Transaction(models.Model):
         null=True,
         blank=True
     )
-    # coin_type = models.CharField(
-    #     max_length=10,
-    #     choices=COIN_CHOICES,
-    #     null=True,
-    #     blank=True
-    # )
+    coin_type = models.CharField(
+        max_length=10,
+        choices=COIN_CHOICES,
+        null=True,
+        blank=True
+    )
     coin = models.ForeignKey(
     Coin,
         on_delete=models.SET_NULL,
