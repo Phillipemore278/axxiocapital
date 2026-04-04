@@ -4,3 +4,6 @@ pillow
 python-dotenv
 cloudinary 
 django-cloudinary-storage
+dj-database-url
+django-cockroachdb==4.2
+psycopg2-binary
