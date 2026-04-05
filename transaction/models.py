@@ -2,6 +2,7 @@ from django.db import models
 from decimal import Decimal
 import qrcode
 from io import BytesIO
+from django.core.files.base import ContentFile
 from django.core.files import File
 
 class Coin(models.Model):
@@ -37,11 +38,13 @@ class Wallet(models.Model):
         buffer = BytesIO()
         qr.save(buffer, format="PNG")
 
-        buffer.seek(0)  # VERY IMPORTANT
-
         filename = f"{self.coin.symbol}_qr.png"
 
-        self.qr_code.save(filename, File(buffer), save=False)
+        self.qr_code.save(
+            filename,
+            ContentFile(buffer.getvalue()),
+            save=False
+        )
 
         super().save(*args, **kwargs)
 
