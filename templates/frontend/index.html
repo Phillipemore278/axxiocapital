@@ -21,7 +21,7 @@
                         monthly and yearly returns, helping you grow your wealth with confidence and transparency.
                     </p>
                     <div class="btn-box">
-                        <a href="#" class="theme-btn btn-two"><span>Get Started</span></a>
+                        <a href="{% url 'account:register' %}" class="theme-btn btn-two"><span>Get Started</span></a>
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                         plans are tailored to suit different investment levels and income expectations.
                     </p>
                     <div class="btn-box">
-                        <a href="#" class="theme-btn btn-two"><span>View Plans</span></a>
+                        <a href="{% url 'account:login' %}" class="theme-btn btn-two"><span>View Plans</span></a>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                         are managed with professionalism while delivering stable returns over time.
                     </p>
                     <div class="btn-box">
-                        <a href="#" class="theme-btn btn-two"><span>Start Investing</span></a>
+                        <a href="{% url 'account:login' %}" class="theme-btn btn-two"><span>Start Investing</span></a>
                     </div>
                 </div>
             </div>
@@ -98,7 +98,7 @@
                             <span class="currency-rate">+0.04%</span>
                             <span class="sell">Sell at 1.06199</span>
                         </div>
-                        <div class="btn-box"><a href="index.html" class="theme-btn"><span>Invest</span></a></div>
+                        <div class="btn-box"><a href="{% url 'account:login' %}" class="theme-btn"><span>Invest</span></a></div>
                     </div>
                 </div>
             </div>
@@ -118,7 +118,7 @@
                             <span class="currency-rate">+0.04%</span>
                             <span class="sell">Sell at 1.06199</span>
                         </div>
-                        <div class="btn-box"><a href="index.html" class="theme-btn"><span>Invest</span></a></div>
+                        <div class="btn-box"><a href="{% url 'account:login' %}" class="theme-btn"><span>Invest</span></a></div>
                     </div>
                 </div>
             </div>
@@ -138,7 +138,7 @@
                             <span class="currency-rate">+0.05%</span>
                             <span class="sell">Sell at 1.24350</span>
                         </div>
-                        <div class="btn-box"><a href="index.html" class="theme-btn"><span>Invest</span></a></div>
+                        <div class="btn-box"><a href="{% url 'account:login' %}" class="theme-btn"><span>Invest</span></a></div>
                     </div>
                 </div>
             </div>
@@ -158,7 +158,7 @@
                             <span class="currency-rate">-0.12%</span>
                             <span class="sell">Sell at 0.06185</span>
                         </div>
-                        <div class="btn-box"><a href="index.html" class="theme-btn"><span>Invest</span></a></div>
+                        <div class="btn-box"><a href="{% url 'account:login' %}" class="theme-btn"><span>Invest</span></a></div>
                     </div>
                 </div>
             </div>
@@ -291,7 +291,7 @@
                             </p>
                         </div>
 
-                        <a href="#" class="theme-btn btn-two">
+                        <a href="{% url 'frontend:about' %}" class="theme-btn btn-two">
                             <span>Learn More</span>
                         </a>
                     </div>
@@ -337,17 +337,17 @@
                                     <div class="table-header">
                                         <h3>Regular Plan</h3>
                                         <p>Perfect for new investors getting started.</p>
-                                        <h2>$100 – $999 <span>Investment Range</span></h2>
+                                        <h2>$10,000<span>Minimum</span></h2>
                                     </div>
                                     <div class="table-content">
                                         <ul class="feature-list clearfix">
-                                            <li>Return Rate <span>5% Monthly</span></li>
-                                            <li>Duration <span>30 Days</span></li>
-                                            <li>Withdrawal <span>Monthly</span></li>
+                                            <li>Return Rate <span>54%</span></li>
+                                            <li>Duration <span>60 Days</span></li>
+                                            <li>Withdrawal <span>Weekly</span></li>
                                         </ul>
                                     </div>
                                     <div class="table-footer">
-                                        <a href="#"><span>Get Started</span></a>
+                                        <a href="{% url 'account:login' %}"><span>Get Started</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -363,17 +363,17 @@
                                     <div class="table-header">
                                         <h3>Gold Plan</h3>
                                         <p>Balanced growth with improved returns.</p>
-                                        <h2>$1,000 – $4,999 <span>Investment Range</span></h2>
+                                        <h2>$35,000 <span>Minimum</span></h2>
                                     </div>
                                     <div class="table-content">
                                         <ul class="feature-list clearfix">
-                                            <li>Return Rate <span>7% Monthly</span></li>
-                                            <li>Duration <span>30 Days</span></li>
-                                            <li>Withdrawal <span>Monthly</span></li>
+                                            <li>Return Rate <span>69%</span></li>
+                                            <li>Duration <span>365 Days</span></li>
+                                            <li>Withdrawal <span>Yearly</span></li>
                                         </ul>
                                     </div>
                                     <div class="table-footer">
-                                        <a href="#"><span>Invest Now</span></a>
+                                        <a href="{% url 'account:register' %}"><span>Invest Now</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -386,17 +386,17 @@
                                     <div class="table-header">
                                         <h3>Diamond Plan</h3>
                                         <p>Higher returns for committed investors.</p>
-                                        <h2>$5,000 – $9,999 <span>Investment Range</span></h2>
+                                        <h2>$100,000 <span>Minimum</span></h2>
                                     </div>
                                     <div class="table-content">
                                         <ul class="feature-list clearfix">
-                                            <li>Return Rate <span>10% Monthly</span></li>
-                                            <li>Duration <span>30 Days</span></li>
-                                            <li>Withdrawal <span>Monthly</span></li>
+                                            <li>Return Rate <span>76%</span></li>
+                                            <li>Duration <span>730 Days</span></li>
+                                            <li>Withdrawal <span>Annually</span></li>
                                         </ul>
                                     </div>
                                     <div class="table-footer">
-                                        <a href="#"><span>Invest Now</span></a>
+                                        <a href="{% url 'account:register' %}"><span>Invest Now</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -412,21 +412,24 @@
                         <!-- GOLD -->
                         <div class="col-lg-4 col-md-6 col-sm-12 pricing-block">
                             <div class="pricing-block-two">
+                                <div class="special-text">
+                                    <h6>Most Popular</h6>
+                                </div>
                                 <div class="pricing-table">
                                     <div class="table-header">
                                         <h3>Gold Plan</h3>
-                                        <p>Stable long-term investment growth.</p>
-                                        <h2>$1,000 – $4,999 <span>Investment Range</span></h2>
+                                        <p>Balanced growth with improved returns.</p>
+                                        <h2>$35,000 <span>Minimum</span></h2>
                                     </div>
                                     <div class="table-content">
                                         <ul class="feature-list clearfix">
-                                            <li>Return Rate <span>90% Yearly</span></li>
-                                            <li>Duration <span>12 Months</span></li>
-                                            <li>Withdrawal <span>End of Term</span></li>
+                                            <li>Return Rate <span>69%</span></li>
+                                            <li>Duration <span>365 Days</span></li>
+                                            <li>Withdrawal <span>Yearly</span></li>
                                         </ul>
                                     </div>
                                     <div class="table-footer">
-                                        <a href="#"><span>Invest Now</span></a>
+                                        <a href="{% url 'account:register' %}"><span>Invest Now</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -435,24 +438,21 @@
                         <!-- DIAMOND -->
                         <div class="col-lg-4 col-md-6 col-sm-12 pricing-block">
                             <div class="pricing-block-two">
-                                <div class="special-text">
-                                    <h6>Recommended</h6>
-                                </div>
                                 <div class="pricing-table">
                                     <div class="table-header">
                                         <h3>Diamond Plan</h3>
-                                        <p>Enhanced returns for long-term investors.</p>
-                                        <h2>$5,000 – $9,999 <span>Investment Range</span></h2>
+                                        <p>Higher returns for committed investors.</p>
+                                        <h2>$100,000 <span>Minimum</span></h2>
                                     </div>
                                     <div class="table-content">
                                         <ul class="feature-list clearfix">
-                                            <li>Return Rate <span>120% Yearly</span></li>
-                                            <li>Duration <span>12 Months</span></li>
-                                            <li>Withdrawal <span>End of Term</span></li>
+                                            <li>Return Rate <span>76%</span></li>
+                                            <li>Duration <span>730 Days</span></li>
+                                            <li>Withdrawal <span>Annually</span></li>
                                         </ul>
                                     </div>
                                     <div class="table-footer">
-                                        <a href="#"><span>Invest Now</span></a>
+                                        <a href="{% url 'account:register' %}"><span>Invest Now</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -465,17 +465,17 @@
                                     <div class="table-header">
                                         <h3>Platinum Plan</h3>
                                         <p>Premium investment with maximum returns.</p>
-                                        <h2>$10,000+ <span>Investment Range</span></h2>
+                                        <h2>$120,000+ <span>Minimum</span></h2>
                                     </div>
                                     <div class="table-content">
                                         <ul class="feature-list clearfix">
-                                            <li>Return Rate <span>150% Yearly</span></li>
-                                            <li>Duration <span>12 Months</span></li>
+                                            <li>Return Rate <span>89%</span></li>
+                                            <li>Duration <span>3 Years</span></li>
                                             <li>Withdrawal <span>Priority Processing</span></li>
                                         </ul>
                                     </div>
                                     <div class="table-footer">
-                                        <a href="#"><span>Invest Now</span></a>
+                                        <a href="{% url 'account:login' %}"><span>Invest Now</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -513,7 +513,7 @@
             </h3>
 
             <div class="lower-box">
-                <a href="#" class="theme-btn btn-two">
+                <a href="{% url 'account:register' %}" class="theme-btn btn-two">
                     <span>Create an Account</span>
                 </a>
 
@@ -521,9 +521,12 @@
                     <div class="image-box">
                         <img src="{% static 'frontend/assets/images/resource/chat-2.png' %}" alt="">
                     </div>
-                    <button type="button">
+                    <a href="{% url 'frontend:contact' %}">
                         Need Help? <br>Contact Support
-                    </button>
+                    </a>
+                    <!-- <button type="button">
+                        Need Help? <br>Contact Support
+                    </button> -->
                 </div>
             </div>
 
@@ -577,7 +580,7 @@
                             <li>Easy deposits and withdrawals <span>03</span></li>
                         </ul>
 
-                        <a href="#" class="theme-btn btn-two">
+                        <a href="{% url 'account:login' %}" class="theme-btn btn-two">
                             <span>Access Dashboard</span>
                         </a>
                     </div>
@@ -663,7 +666,7 @@
                 Our goal is to provide a reliable investment environment where individuals can grow their
                 wealth with confidence and peace of mind.
             </p>
-            <a href="#" class="theme-btn btn-two">
+            <a href="{% url 'account:register' %}" class="theme-btn btn-two">
                 <span>Get Started Today</span>
             </a>
         </div>
@@ -808,7 +811,7 @@
                     <div class="lower-box">
                         <div class="text-box">
                             <span>Payout</span>
-                            <h3>$4,350</h3>
+                            <h3>$4,350,000</h3>
                         </div>
                         <div class="rating">
                             <h6><i class="flaticon-rate-star-button"></i>4.9</h6>
@@ -830,7 +833,7 @@
                     <div class="lower-box">
                         <div class="text-box">
                             <span>Payout</span>
-                            <h3>$3,940</h3>
+                            <h3>$33,940,500</h3>
                         </div>
                         <div class="rating">
                             <h6><i class="flaticon-rate-star-button"></i>5.0</h6>
@@ -852,7 +855,7 @@
                     <div class="lower-box">
                         <div class="text-box">
                             <span>Payout</span>
-                            <h3>$2,175</h3>
+                            <h3>$2,175,000</h3>
                         </div>
                         <div class="rating">
                             <h6><i class="flaticon-rate-star-button"></i>4.9</h6>
@@ -866,7 +869,7 @@
                 <h5>Quick and Reliable</h5>
                 <div class="inner-box">
                     <div class="author-box">
-                        <figure class="thumb-box"><img src="{% static 'frontend/assets/images/resource/testimonial-5.png' %}" alt=""></figure>
+                        <figure class="thumb-box"><img src="" alt=""></figure>
                         <h3>Clara Thompson</h3>
                         <span class="designation">Sydney, Australia</span>
                     </div>
@@ -874,7 +877,7 @@
                     <div class="lower-box">
                         <div class="text-box">
                             <span>Payout</span>
-                            <h3>$5,200</h3>
+                            <h3>$5,200,675</h3>
                         </div>
                         <div class="rating">
                             <h6><i class="flaticon-rate-star-button"></i>5.0</h6>

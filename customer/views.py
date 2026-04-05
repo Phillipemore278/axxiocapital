@@ -12,7 +12,7 @@ from django.db.models.functions import TruncDate
 from datetime import datetime
 
 from .models import Portfolio
-from .forms import KYCForm
+from .forms import KYCForm, ProfilePictureForm
 from account.models import KYC
 from account.forms import BootstrapPasswordChangeForm
 from plan.models import Plan, OrderPlan, OrderPlanItem, TransactionLog
@@ -521,3 +521,18 @@ def change_password(request):
 
     # return redirect("customer:dashboard")
     return redirect("customer:settings_security")
+
+@login_required
+def update_profile_picture(request):
+    portfolio = request.user.portfolio
+
+    if request.method == "POST":
+        form = ProfilePictureForm(request.POST, request.FILES, instance=portfolio)
+        if form.is_valid():
+            form.save()
+            messages.info(request, "Profile picture is updated successfully.")
+            return redirect('customer:settings_security')  
+    else:
+        form = ProfilePictureForm(instance=portfolio)
+
+    return render(request, "customer/update_profile_picture.html", {"form": form})

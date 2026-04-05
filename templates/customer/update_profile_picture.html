@@ -25,27 +25,21 @@
 
             <div class="card shadow-sm">
                 <div class="card-header">
-                    <h5 class="mb-0">Allocate Funds to  activate {{plan.name}} plan</h5>
+                    <h5 class="mb-0">Upload profile picture</h5>
                 </div>
                 {% include "../notification/messages.html" %}
                 <div class="card-body">
-                    <form method="post" class="pinner-form" novalidate>
+                    <form method="post" class="pinner-form" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="mb-3">
-                            <label for="allocated_cash" class="form-label">
-                                Amount to Allocate
-                            </label>
-
-                            <input type="number" class="form-control" id="allocated_cash" name="allocated_cash"
-                                placeholder="Enter amount" min="0" step="0.01" required>
-
-                            <div class="form-text">
-                                Enter the amount you want to assign to this Mandate.
+                            <div class="mb-3">
+                                <label class="form-label">Update Profile Picture</label>
+                                {{ form.profile_picture }}
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary w-100 btn-sm fw-bold"
-                            data-spinner-text="Activating..." data-spinner-class="btn-secondary w-100">
-                            Activate Mandate
+                            data-spinner-text="uploading..." data-spinner-class="btn-secondary w-100">
+                            Upload
                         </button>
                     </form>
                 </div>

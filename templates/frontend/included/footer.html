@@ -70,20 +70,20 @@
                             <div class="row clearfix">
                                 <div class="col-lg-6 col-md-6 col-sm-12 links-column">
                                     <ul class="links-list clearfix">
-                                        <li><a href="index.html">Home</a></li>
-                                        <li><a href="about.html">About Us</a></li>
-                                        <li><a href="team.html">Our Team</a></li>
-                                        <li><a href="blog.html">Blog</a></li>
-                                        <li><a href="faq.html">FAQs</a></li>
+                                        <li><a href="{% url 'frontend:home' %}">Home</a></li>
+                                        <li><a href="{% url 'frontend:about' %}">About Us</a></li>
+                                        <li><a href="{% url 'frontend:contact' %}">contact</a></li>
+                                        <li><a href="{% url 'frontend:home' %}">Blog</a></li>
+                                        <li><a href="{% url 'frontend:home' %}">FAQs</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 links-column">
                                     <ul class="links-list clearfix">
-                                        <li><a href="markets.html">Markets</a></li>
-                                        <li><a href="get-funded.html">Get Funded</a></li>
-                                        <li><a href="pricing.html">Pricing</a></li>
-                                        <li><a href="contact.html">Support</a></li>
-                                        <li><a href="courses.html">Investment Courses</a></li>
+                                        <li><a href="{% url 'account:register' %}">Register</a></li>
+                                        <li><a href="{% url 'account:login' %}">Get Funded</a></li>
+                                        <li><a href="{% url 'account:login' %}">Login</a></li>
+                                        <li><a href="{% url 'frontend:contact' %}">Support</a></li>
+                                        <!-- <li><a href="courses.html">Investment Courses</a></li> -->
                                     </ul>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
                                 <li><span>10k+</span></li>
                                 <li><h6>Members</h6></li>
                             </ul>
-                            <div class="btn-box"><a href="invite.html" class="theme-btn btn-two"><span>Accept Our Invite</span></a></div>
+                            <div class="btn-box"><a href="{% url 'frontend:contact' %}" class="theme-btn btn-two"><span>Accept Our Invite</span></a></div>
                             <div class="active-text"><span>4,235 Investors Online</span></div>
                         </div>
                     </div>
@@ -123,12 +123,12 @@
         <div class="auto-container">
             <div class="bottom-inner">
                 <div class="copyright">
-                    <p>&copy; 2023 <a href="index.html">AxxioCapital</a>. Your Trusted Investment Partner. All Rights Reserved.</p>
+                    <p>&copy; 2023 <a href="{% url 'frontend:home' %}">AxxioCapital</a>. Your Trusted Investment Partner. All Rights Reserved.</p>
                 </div>
                 <ul class="footer-nav">
-                    <li><a href="privacy.html">Privacy Policy</a></li>
-                    <li><a href="terms.html">Terms & Conditions</a></li>
-                    <li><a href="legal.html">Legal</a></li>
+                    <li><a href="/">Privacy Policy</a></li>
+                    <li><a href="/">Terms & Conditions</a></li>
+                    <li><a href="/">Legal</a></li>
                 </ul>
             </div>
         </div>

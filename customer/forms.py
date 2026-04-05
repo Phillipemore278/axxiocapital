@@ -2,6 +2,17 @@ from django import forms
 from django.utils import timezone
 
 from account.models import KYC
+from .models import Portfolio
+
+class ProfilePictureForm(forms.ModelForm):
+    class Meta:
+        model = Portfolio
+        fields = ['profile_picture']
+        widgets = {
+            'profile_picture': forms.ClearableFileInput(attrs={
+                'class': 'form-control'
+            })
+        }
 
 
 class KYCForm(forms.ModelForm):

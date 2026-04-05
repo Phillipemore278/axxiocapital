@@ -1,18 +1,25 @@
 {% load static %}
 <!-- Mobile Navbar -->
-<nav class="navbar navbar-dark bg-light d-lg-none px-3">
-  <button class="btn btn-outline-dark text-dark" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">☰</button>
+ <style id="8k2p4x">
+  .bg-dark{
+    background-color: #14161b !important;
+    border-bottom: 1px solid #3e0592 !important;
+    /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); */
+  }
+</style>
+<nav class="navbar navbar-dark bg-dark d-lg-none px-3 shadow">
+  <button class="btn btn-outline-light text-light" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">☰</button>
 
   <img src="{% static 'frontend/assets/images/axxio-logo.png' %}" alt="Logo" class="logo ms-2" width="100">
 
   <div class="d-flex align-items-center ms-auto">
     
-    <span class="me-2 text-dark fw-semibold" style="font-size: 11px;">
+    <span class="me-2 text-light fw-semibold" style="font-size: 11px;">
         {{ request.user.nick_name }}
     </span>
 
-    {% if user.profile.image %}
-      <img src="{{ request.user.profile.image.url }}" 
+    {% if request.user.portfolio.profile_picture %}
+      <img src="{{ request.user.portfolio.profile_picture.url }}" 
            alt="{{ user.username }}" 
            class="rounded-circle" 
            width="40" height="40">

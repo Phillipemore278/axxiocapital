@@ -148,6 +148,27 @@ CLOUDINARY_STORAGE = {
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+# STORAGES = {
+#     "default": {
+#         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+#     },
+#     "staticfiles": {
+#         "BACKEND": "cloudinary_storage.storage.StaticHashedCloudinaryStorage",
+#     },
+# }
+
 LOGIN_OTP_ENABLED = True
 SITE_NAME = "Axxio Capital"
-SITE_DOMAIN = "noveraonline.com"
+SITE_DOMAIN = "axxiocapital.com"
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.zoho.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+DEFAULT_FROM_EMAIL = 'Axxio Capital <support@axxiocapital.com>'

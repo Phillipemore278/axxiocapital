@@ -322,7 +322,7 @@
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-2 main-head">
     <h5 class="text-light mb-2 mb-md-0">Manage Portfolio</h5>
 
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center d-none d-md-block">
         {% if user.profile.image %}
         <img src="{{ user.profile.image.url }}" alt="{{ user.username }}" class="rounded-circle me-2" width="40"
             height="40">
@@ -332,7 +332,7 @@
             {{ portfolio.user.nick_name|slice:":1"|upper }}
         </div>
         {% endif %}
-        <span class="fw-medium text-light">{{ portfolio.user.nick_name }}</span>
+        <!-- <span class="fw-medium text-light">{{ portfolio.user.nick_name }}</span> -->
     </div>
 </div>
 <hr class="border-light mb-1">
