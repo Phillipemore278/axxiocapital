@@ -56,9 +56,9 @@
 
                 <!-- Admin Actions -->
                 <div class="mt-3">
-                    <!-- <button class="btn btn-outline-primary btn-sm">
-                        <i class="bi bi-pencil"></i> Edit Profile
-                    </button> -->
+                    <a href="{% url 'staff:admin_customer_transactions' customer.id %}" class="btn btn-outline-primary btn-sm text-light">
+                        <i class="bi bi-pencil"></i> View {{customer.nick_name }}'s transactions
+                    </a>
                     <!-- <button class="btn btn-outline-danger btn-sm">
                         <i class="bi bi-ban"></i> Suspend
                     </button> -->

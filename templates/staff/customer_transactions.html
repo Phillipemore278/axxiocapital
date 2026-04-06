@@ -1,0 +1,128 @@
+{% extends "../customer/base.html" %}
+{% load humanize %}
+
+{% block content %}
+<style>
+    .card{
+        background: linear-gradient(145deg, #120c1a, #1f1630);
+        border-radius: 12px;
+        color: #fff;
+        border: 1px solid #7921f4;
+        transition: 0.3s ease;
+    }
+
+    /* Force dark background */
+    .custom-table {
+        background-color: transparent !important;
+    }
+
+    .custom-table th,
+    .custom-table td {
+        background-color: transparent !important;
+        color: #fff;
+    }
+
+    /* Remove Bootstrap white */
+    .table {
+        --bs-table-bg: transparent !important;
+        --bs-table-striped-bg: transparent !important;
+        --bs-table-hover-bg: rgba(121, 33, 244, 0.05) !important;
+    }
+
+    /* Header */
+    .custom-table thead {
+        background: transparent;
+    }
+
+    /* Optional: smoother row hover */
+    .custom-table tbody tr:hover td {
+        background: rgba(121, 33, 244, 0.05) !important;
+    }
+</style>
+<div class="container mt-5">
+    {% include "../notification/messages.html" %}
+    <div class="row">
+        <div class="col-5 col-sm-8">
+            <h4 class="text-light">{{portfolio.user.nick_name}}'s transactions</h4>
+        </div>
+    </div>
+
+    <hr class="mt-0 border-light">
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle custom-table">
+            <thead>
+                <tr>
+                    <!-- <th>User</th> -->
+                    <th>Amount</th>
+                    <th>Method</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for t in transactions %}
+                <tr>
+                    <!-- <td>
+                        {{ t.portfolio.user.full_name|default:t.portfolio.user.email }}
+                    </td> -->
+
+                    <td>
+                        ${{ t.amount|floatformat:2|intcomma }}
+                    </td>
+
+                    <td>
+                        {{ t.payment_method }}
+                    </td>
+                    <td>
+                        {% if t.transaction_type == "DEPOSIT" %}
+                        <span class="badge bg-success">Deposit</span>
+                        {% elif t.transaction_type == "WITHDRAW" %}
+                        <span class="badge bg-danger">Withdrawal</span>
+                        {% else %}
+                        <span class="badge bg-warning">
+                            {{ t.get_transaction_type_display }}
+                        </span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {{ t.timestamp|date:"Y-m-d H:i" }}
+                    </td>
+
+                    <td>
+                        {% if t.status == "PENDING" %}
+                        <span class="badge bg-warning-subtle text-warning">
+                            Pending
+                        </span>
+                        {% elif t.status == "SUCCESSFUL" %}
+                        <span class="badge bg-success-subtle text-success">
+                            Successful
+                        </span>
+                        {% else %}
+                        <span class="badge bg-danger-subtle text-danger">
+                            Failed
+                        </span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <a href="{% url 'staff:admin_delete_transaction' t.id %}" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center text-light py-4">
+                        No pending deposit requests
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{% endblock %}

@@ -10,6 +10,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     nick_name = models.CharField(max_length=255)
 
     # Address fields
+    phone = models.CharField(max_length=100, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     state = models.CharField(max_length=100, null=True, blank=True)
     country = models.CharField(max_length=100, blank=True, null=True)

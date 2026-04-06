@@ -6,6 +6,7 @@ from django.db import transaction
 from django.utils import timezone
 from django.conf import settings
 from decimal import Decimal
+from django.db.models import Sum
 
 from .services import create_manual_snapshot
 from .decorators import admin_staff_only
@@ -93,6 +94,74 @@ def admin_delete_customer_view(request, user_id):
 
     return render(request, "staff/delete_customer.html", context)
 
+
+@login_required
+@admin_staff_only
+def admin_customer_transactions_view(request, user_id):
+    """
+    Shows all transactions for the logged-in customer's portfolio.
+    Also calculates total balance, pending withdrawals, and transaction counts.
+    """
+    user = User.objects.get(id=user_id)
+    portfolio = user.portfolio
+
+    # Fetch all transactions for this portfolio, ordered newest first
+    all_transactions = portfolio.transactions.all().order_by('-timestamp')
+
+    # Summary metrics
+    total_balance = portfolio.cash_balance
+    pending_withdraw_sum = all_transactions.filter(
+        transaction_type='WITHDRAW',
+        status='PENDING'
+    ).aggregate(total=Sum('amount'))['total'] or 0
+
+    total_deposits = all_transactions.filter(
+        transaction_type='DEPOSIT',
+        status='SUCCESS'
+    ).aggregate(total=Sum('amount'))['total'] or 0
+
+    total_withdrawals = all_transactions.filter(
+        transaction_type='WITHDRAW',
+        status='SUCCESS'
+    ).aggregate(total=Sum('amount'))['total'] or 0
+
+    context = {
+        "portfolio": portfolio,
+        "transactions": all_transactions,
+        "total_balance": total_balance,
+        "pending_withdraw_sum": pending_withdraw_sum,
+        "total_deposits": total_deposits,
+        "total_withdrawals": total_withdrawals,
+    }
+
+    return render(
+        request,
+        "staff/customer_transactions.html",
+        context
+    )
+
+
+@login_required
+@admin_staff_only
+def admin_delete_transaction_view(request, transaction_id):
+    """
+    Allows admin staff to delete a transaction safely using a POST form.
+    GET request shows a confirmation page.
+    """
+    transaction = get_object_or_404(Transaction, id=transaction_id)
+
+    if request.method == "POST":
+        # Delete the transaction
+        transaction.delete()
+        messages.success(request, "Transaction deleted successfully.")
+        return redirect('staff:admin_customer_transactions', user_id=transaction.portfolio.user.id)
+
+    # If GET, show confirmation form/page
+    context = {
+        "transaction": transaction,
+        "current_url": request.resolver_match.url_name,
+    }
+    return render(request, "staff/transaction_delete_confirm.html", context)
 
 @login_required
 @admin_staff_only

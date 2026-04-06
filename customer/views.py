@@ -23,6 +23,7 @@ from transaction.models import Coin, Wallet
 @login_required
 def customer_dashboard_view(request):
     portfolio = Portfolio.objects.get(user=request.user)
+    transactions = portfolio.transactions.all()[:8]
 
     totals = OrderPlan.objects.filter(
         portfolio=portfolio,
@@ -131,6 +132,7 @@ def customer_dashboard_view(request):
         'lowest_allocation': lowest_allocation,
         'best_performing': best_performing,
         'diversification': diversification,
+        "transactions": transactions,
     }
     return render(request, "customer/dashboard.html", context)
 

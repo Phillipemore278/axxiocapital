@@ -357,7 +357,7 @@
                 <div class="card-body">
                     <h6 class="card-title">Invested Amount</h6>
                     <h5>${{non_mirrored_total|intcomma }}</h5>
-                    <button class="btn btn-sm action-btn mt-2">Invest More</button>
+                    <a href="{% url 'customer:all_plans' %}" class="btn btn-sm action-btn mt-2">Invest More</a>
                 </div>
             </div>
         </div>
@@ -379,7 +379,7 @@
                 <div class="card-body">
                     <h6 class="card-title">Active Plans</h6>
                     <h5>{{active_plans_count}}</h5>
-                    <button class="btn btn-sm action-btn mt-2">Manage</button>
+                    <a href="{% url 'customer:active_plan_list' %}" class="btn btn-sm action-btn mt-2">Manage</a>
                 </div>
             </div>
         </div>
@@ -525,8 +525,8 @@
 <div class="container my-4">
 
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="text-white">Transaction History</h5>
-        <button class="btn btn-sm btn-dark-alt">View All</button>
+        <h5 class="text-white">Last 8 Transactions</h5>
+        <a href="{% url 'customer:wallet' %}" class="btn btn-sm btn-dark-alt">View All</a>
     </div>
 
     <div class="card table-card p-3">
@@ -538,43 +538,32 @@
                         <th>Amount</th>
                         <th>Status</th>
                         <th>Date</th>
-                        <th></th>
+                        <!-- <th></th> -->
                     </tr>
                 </thead>
 
                 <tbody>
-
+                    {% for t in transactions %}
                     <tr>
-                        <td><span class="type deposit">Deposit</span></td>
-                        <td class="text-success">+$2,000</td>
-                        <td><span class="badge status-success">Completed</span></td>
-                        <td>Apr 02, 2026</td>
-                        <td><button class="btn btn-sm action-btn">View</button></td>
+                        <td><span class="type deposit">{{t.transaction_type}}</span></td>
+                        <td class="text-success">${{ t.amount|floatformat:2|intcomma }}</td>
+                        <td>
+                            {% if t.status == "PENDING" %}
+                            <span class="badge status-pending">Pending</span>
+                            {% elif t.status == "SUCCESSFUL" %}
+                            <span class="badge status-success">Completed</span>
+                            {% else %}
+                            <span class="badge status-failed">Failed</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ t.timestamp|date:"Y-m-d" }}</td>
+                        <!-- <td><button class="btn btn-sm action-btn">View</button></td> -->
                     </tr>
-
+                    {% empty %}
                     <tr>
-                        <td><span class="type invest">Investment</span></td>
-                        <td class="text-primary">-$5,000</td>
-                        <td><span class="badge status-success">Completed</span></td>
-                        <td>Apr 01, 2026</td>
-                        <td><button class="btn btn-sm action-btn">View</button></td>
+                        <td colspan="5" class="text-center">No finance history yet.</td>
                     </tr>
-
-                    <tr>
-                        <td><span class="type withdraw">Withdrawal</span></td>
-                        <td class="text-warning">-$1,200</td>
-                        <td><span class="badge status-pending">Pending</span></td>
-                        <td>Mar 30, 2026</td>
-                        <td><button class="btn btn-sm action-btn">View</button></td>
-                    </tr>
-
-                    <tr>
-                        <td><span class="type deposit">Deposit</span></td>
-                        <td class="text-success">+$3,500</td>
-                        <td><span class="badge status-failed">Failed</span></td>
-                        <td>Mar 28, 2026</td>
-                        <td><button class="btn btn-sm action-btn">View</button></td>
-                    </tr>
+                    {% endfor %}
 
                 </tbody>
             </table>

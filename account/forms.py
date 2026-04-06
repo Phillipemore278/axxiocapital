@@ -26,6 +26,7 @@ class UserRegistrationForm(forms.ModelForm):
             'email',
             'full_name',
             'nick_name',
+            "phone",
             'address',
             'state',
             'country',
@@ -49,6 +50,10 @@ class UserRegistrationForm(forms.ModelForm):
             'nick_name': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Enter username'
+            }),
+            "phone": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Enter phone number"
             }),
             'address': forms.Textarea(attrs={
                 'class': 'form-control',
@@ -122,6 +127,7 @@ class AdminCustomerEditForm(forms.ModelForm):
             "full_name",
             "nick_name",
             "email",
+            "phone",
             "address",
             "state",
             "country",
@@ -148,6 +154,10 @@ class AdminCustomerEditForm(forms.ModelForm):
             "email": forms.EmailInput(attrs={
                 "class": "form-control",
                 "placeholder": "Enter email"
+            }),
+            "phone": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Enter phone number"
             }),
             "address": forms.Textarea(attrs={
                 "class": "form-control",

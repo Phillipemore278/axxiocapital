@@ -12,6 +12,8 @@ urlpatterns = [
     name="admin_edit_customer"),
     path("customers/<int:user_id>/delete/", views.admin_delete_customer_view,
     name="admin_delete_customer"),
+    path("transactions/<int:user_id>/all/", views.admin_customer_transactions_view, name="admin_customer_transactions"),
+    path("delete-transactions/<int:transaction_id>/", views.admin_delete_transaction_view, name="admin_delete_transaction"),
 
     path('plans/', views.admin_plan_list_view,name='admin_plan_list'),
     path('plan/create/', views.admin_plan_create_view,name='admin_plan_create'),

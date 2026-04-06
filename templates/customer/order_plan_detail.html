@@ -86,8 +86,8 @@
                 <p><strong>Status:</strong>
                     <span class="badge bg-success">{{ order.status }}</span>
                 </p>
-                <p><strong>Start Date:</strong> {{ order.start_at|date:"Y-m-d" }}</p>
-                <p><strong>Ends on: </strong> {{ order.end_date|date:"M d, Y" }}</p>
+                <!-- <p><strong>Start Date:</strong> {{ order.start_at|date:"Y-m-d" }}</p> -->
+                <!-- <p><strong>Ends on: </strong> {{ order.end_date|date:"M d, Y" }}</p> -->
                 <!-- <p><strong>Start Date:</strong> {{ order.start_at|date:"Y-m-d" }}</p> -->
             </div>
 
@@ -113,7 +113,7 @@
             <ul class="list-group list-group-flush custom-list">
                 {% for item in snapshots %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ item.snapshot_at }}
+                    {{ item.snapshot_at|date:"h:i A" }}
 
                     <span class="badge 
                         {% if item.delta_amount > 0 %}
