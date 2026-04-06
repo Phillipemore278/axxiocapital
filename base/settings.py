@@ -160,8 +160,8 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 LOGIN_OTP_ENABLED = True
 SITE_NAME = "Axxio Capital"
 SITE_DOMAIN = "axxiocapital.com"
-ADMIN_EMAIL = "philipemoore2@gmail.com"
-# ADMIN_EMAIL = "support@axxiocapital.com"
+# ADMIN_EMAIL = "philipemoore2@gmail.com"
+ADMIN_EMAIL = "support@axxiocapital.com"
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
