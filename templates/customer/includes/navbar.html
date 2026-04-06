@@ -137,6 +137,18 @@
         </a>
       </li>
       <li class="nav-item">
+            <a class="nav-link {% if current_url == 'deposit' %}active{% endif %}" href="{% url 'staff:deposit' %}">
+                <i class="bi bi-cash-stack me-2"></i>
+                Fund Account
+            </a>
+      </li>
+      <li class="nav-item">
+            <a class="nav-link {% if current_url == 'withdraw' %}active{% endif %}" href="{% url 'staff:withdraw' %}">
+                <i class="bi bi-arrow-down-circle me-2"></i>
+                Debit Account
+            </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link {% if current_url == 'logout' %}active{% endif %}" href="{% url 'account:logout' %}">
           <i class="bi bi-box-arrow-right"></i>
           Logout
@@ -245,6 +257,18 @@
         My Wallets
       </a>
     </li>
+    <li class="nav-item">
+            <a class="nav-link {% if current_url == 'deposit' %}active{% endif %}" href="{% url 'staff:deposit' %}">
+                <i class="bi bi-cash-stack me-2"></i>
+                Fund Account
+            </a>
+      </li>
+      <li class="nav-item">
+            <a class="nav-link {% if current_url == 'withdraw' %}active{% endif %}" href="{% url 'staff:withdraw' %}">
+                <i class="bi bi-arrow-down-circle me-2"></i>
+                Debit Account
+            </a>
+      </li>
     <li class="nav-item">
         <a class="nav-link {% if current_url == 'logout' %}active{% endif %}" href="{% url 'account:logout' %}">
           <i class="bi bi-box-arrow-right"></i>

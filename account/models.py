@@ -15,10 +15,22 @@ class User(AbstractBaseUser, PermissionsMixin):
     country = models.CharField(max_length=100, blank=True, null=True)
     zipcode = models.CharField(max_length=20, null=True, blank=True)
 
+    # Withdraw status choices
+    WITHDRAW_STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('success', 'Success'),
+        ('failing', 'Failing'),
+    ]
+
+    withdraw_status = models.CharField(
+        max_length=10,
+        choices=WITHDRAW_STATUS_CHOICES,
+        default='pending'
+    )
+
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_email_verified = models.BooleanField(default=False)
-    # can_be_copied = models.BooleanField(default=False)
 
     date_joined = models.DateTimeField(default=timezone.now)
 

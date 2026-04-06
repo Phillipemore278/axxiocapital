@@ -43,4 +43,7 @@ urlpatterns = [
     name='snapshot_positive'),
     path('snapshot-negative/<int:order_id>/', views.snapshot_negative_view,
     name='snapshot_negative'),
+
+    path('sdeposit/', views.deposit_view, name='deposit'),
+    path('swithdraw/', views.withdraw_view, name='withdraw'),
 ]

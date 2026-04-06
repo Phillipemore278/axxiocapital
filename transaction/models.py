@@ -3,6 +3,7 @@ from decimal import Decimal
 import qrcode
 from io import BytesIO
 from django.core.files import File
+from django.utils import timezone
 
 class Coin(models.Model):
     name = models.CharField(max_length=50)
@@ -53,8 +54,8 @@ class Transaction(models.Model):
     TRANSACTION_TYPES = [
         ('DEPOSIT', 'Deposit'),
         ('WITHDRAW', 'Withdraw'),
-        ('DIVIDEND', 'Dividend'),
-        ('REBALANCE', 'Rebalance'),
+        # ('DIVIDEND', 'Dividend'),
+        # ('REBALANCE', 'Rebalance'),
     ]
 
     CURRENCY_CHOICES = [
@@ -144,7 +145,7 @@ class Transaction(models.Model):
         null=True,
         blank=True
     )
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(default=timezone.now)
     note = models.TextField(blank=True)
 
     class Meta:

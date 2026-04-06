@@ -380,22 +380,84 @@ def customer_deposit_view(request):
     )
 
 
+# @login_required
+# @transaction.atomic
+# def customer_withdraw_view(request):
+#     portfolio = request.user.portfolio
+
+#     # Only fetch withdraw transactions once
+#     withdraw_transactions = portfolio.transactions.filter(
+#         transaction_type='WITHDRAW'
+#     )
+
+#     # Pending withdraws and total in a single query
+#     pending_withdraw_sum = withdraw_transactions.filter(
+#         status='PENDING'
+#     ).aggregate(
+#         total=Sum('amount')
+#     )['total'] or 0
+
+#     if request.method == "POST":
+#         form = CustomerTransactionForm(request.POST, transaction_type="WITHDRAW")
+
+#         if form.is_valid():
+#             trans = form.save(commit=False)
+#             trans.transaction_type = 'WITHDRAW'
+#             trans.portfolio = portfolio
+
+#             # Check if balance is sufficient
+#             if portfolio.cash_balance < trans.amount:
+#                 messages.error(
+#                     request,
+#                     "You don't have enough cash balance to complete this withdrawal."
+#                 )
+#             else:
+
+#                 if not portfolio.is_kyc_verified:
+#                     messages.info(
+#                         request,
+#                         "You must complete identity verification (KYC) before making a withdrawal."
+#                     )
+#                     return redirect('customer:verify_kyc')
+#                 # Deduct from balance and save
+#                 portfolio.cash_balance -= trans.amount
+#                 portfolio.save()
+
+#                 trans.balance = portfolio.cash_balance
+#                 trans.save()
+#                 messages.success(
+#                     request,
+#                     "Your withdrawal request has been submitted successfully and is pending processing."
+#                 )
+#                 return redirect('customer:customer_withdraw')
+
+#     else:
+#         form = CustomerTransactionForm()
+
+#     return render(
+#         request,
+#         "customer/transactions/customer_withdraw.html",
+#         {
+#             "form": form,
+#             "transactions": withdraw_transactions,
+#             "portfolio": portfolio,
+#             "pending_withdraw_sum": pending_withdraw_sum,
+#         }
+#     )
+
+from transaction.utils import process_withdrawal
 @login_required
 @transaction.atomic
 def customer_withdraw_view(request):
     portfolio = request.user.portfolio
 
-    # Only fetch withdraw transactions once
     withdraw_transactions = portfolio.transactions.filter(
         transaction_type='WITHDRAW'
     )
 
-    # Pending withdraws and total in a single query
     pending_withdraw_sum = withdraw_transactions.filter(
         status='PENDING'
-    ).aggregate(
-        total=Sum('amount')
-    )['total'] or 0
+    ).aggregate(total=Sum('amount'))['total'] or 0
 
     if request.method == "POST":
         form = CustomerTransactionForm(request.POST, transaction_type="WITHDRAW")
@@ -405,30 +467,21 @@ def customer_withdraw_view(request):
             trans.transaction_type = 'WITHDRAW'
             trans.portfolio = portfolio
 
-            # Check if balance is sufficient
-            if portfolio.cash_balance < trans.amount:
-                messages.error(
-                    request,
-                    "You don't have enough cash balance to complete this withdrawal."
-                )
+            # 💡 Call utility
+            result = process_withdrawal(request.user, portfolio, trans)
+
+            if result["status"] == "error":
+                messages.error(request, result["message"])
+                if result.get("redirect"):
+                    return redirect(result["redirect"])
+                return redirect('customer:customer_withdraw')
+            if result["status"] == "warning":
+                messages.warning(request, result["message"])
+                if result.get("redirect"):
+                    return redirect(result["redirect"])
+                return redirect('customer:customer_withdraw')
             else:
-
-                if not portfolio.is_kyc_verified:
-                    messages.info(
-                        request,
-                        "You must complete identity verification (KYC) before making a withdrawal."
-                    )
-                    return redirect('customer:verify_kyc')
-                # Deduct from balance and save
-                portfolio.cash_balance -= trans.amount
-                portfolio.save()
-
-                trans.balance = portfolio.cash_balance
-                trans.save()
-                messages.success(
-                    request,
-                    "Your withdrawal request has been submitted successfully and is pending processing."
-                )
+                messages.success(request, result["message"])
                 return redirect('customer:customer_withdraw')
 
     else:

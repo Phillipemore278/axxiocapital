@@ -14,7 +14,7 @@ from account.forms import AdminCustomerEditForm
 from plan.models import Plan, OrderPlan
 from plan.forms import PlanForm
 from transaction.models import Transaction, Coin, Wallet
-from transaction.forms import CoinForm, WalletForm
+from transaction.forms import CoinForm, WalletForm, TransactionForm
 from notification.email_utils import send_html_email
 
 
@@ -533,3 +533,63 @@ def snapshot_negative_view(request, order_id):
                                   actor=request.user, reason="Staff negative toggle")
     messages.success(request, f"Negative snapshot created for {order.plan.name}: - ${item.delta_amount} remopved from the current value")
     return redirect('staff:admin_customer_detail', user_id=order.portfolio.user.id)
+
+
+@login_required
+@admin_staff_only
+@transaction.atomic
+def deposit_view(request):
+    if request.method == "POST":
+        form = TransactionForm(request.POST)
+        if form.is_valid():
+            trans = form.save(commit=False)
+            trans.transaction_type = 'DEPOSIT'
+            trans.save()
+
+            # Update the selected portfolio cash_balance
+            portfolio = trans.portfolio
+            portfolio.cash_balance += trans.amount
+            portfolio.save()
+
+            trans.balance = portfolio.cash_balance
+            trans.save()
+
+            messages.success(request, "Deposit successful!")
+            return redirect('staff:deposit')  # change to your url name
+
+    else:
+        form = TransactionForm()
+
+    return render(request, "staff/sdeposit.html", {"form": form})
+
+
+@login_required
+@admin_staff_only
+@transaction.atomic
+def withdraw_view(request):
+    if request.method == "POST":
+        form = TransactionForm(request.POST)
+        if form.is_valid():
+            trans = form.save(commit=False)
+            trans.transaction_type = 'WITHDRAW'
+
+            portfolio = trans.portfolio
+
+            # Check if balance is sufficient
+            if portfolio.cash_balance < trans.amount:
+                messages.error(request, "Insufficient cash balance for this withdrawal.")
+                return render(request, "staff/swithdraw.html", {"form": form})
+
+            # Deduct from balance and save
+            portfolio.cash_balance -= trans.amount
+            portfolio.save()
+
+            trans.balance = portfolio.cash_balance
+            trans.save()
+            messages.success(request, "Withdrawal successful!")
+            return redirect('staff:withdraw')
+
+    else:
+        form = TransactionForm(initial={'transaction_type': 'Withdraw'})
+
+    return render(request, "staff/swithdraw.html", {"form": form})

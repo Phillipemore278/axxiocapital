@@ -128,6 +128,7 @@ class AdminCustomerEditForm(forms.ModelForm):
             "zipcode",
             "is_active",
             # "can_be_copied",
+            "withdraw_status",
         ]
 
         labels = {
@@ -167,6 +168,9 @@ class AdminCustomerEditForm(forms.ModelForm):
             }),
             "is_active": forms.CheckboxInput(attrs={
                 "class": "form-check-input"
+            }),
+            "withdraw_status": forms.Select(attrs={
+                'class': 'form-control'
             }),
             # "can_be_copied": forms.CheckboxInput(attrs={
             #     "class": "form-check-input"

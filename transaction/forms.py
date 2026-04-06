@@ -1,6 +1,8 @@
 from django import forms
+from django.utils import timezone
+
 from .models import Transaction, Coin, Wallet
-# from customer.models import Portfolio
+from customer.models import Portfolio
 
 class CoinForm(forms.ModelForm):
     class Meta:
@@ -89,3 +91,78 @@ class CustomerTransactionForm(forms.ModelForm):
         if amount <= 0:
             raise forms.ValidationError("Amount must be greater than zero.")
         return amount
+    
+
+class TransactionForm(forms.ModelForm):
+    class Meta:
+        model = Transaction
+        fields = [
+            'portfolio',
+            'payment_method',
+            'currency',
+            'amount',
+            'note',
+            'status',
+            'timestamp',
+        ]
+
+        widgets = {
+            'portfolio': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'payment_method': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'currency': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'amount': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter amount'
+            }),
+            'note': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Enter note (optional)'
+            }),
+            'status': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'timestamp': forms.DateTimeInput(attrs={
+                'type': 'datetime-local',
+                'class': 'form-control'
+            }),
+        }
+
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Filter portfolios (exclude staff users)
+        self.fields['portfolio'].queryset = Portfolio.objects.exclude(user__is_staff=True)
+
+        # Optional fields
+        self.fields['payment_method'].required = False
+        self.fields['currency'].required = False
+
+        # Default values
+        self.fields['currency'].initial = 'USD'
+
+        # Exclude current user portfolios if provided
+        if user:
+            self.fields['portfolio'].queryset = self.fields['portfolio'].queryset.exclude(user=user)
+
+        # Auto-fill timestamp when creating new transaction
+        if not self.instance.pk:
+            self.fields['timestamp'].initial = timezone.now().strftime('%Y-%m-%dT%H:%M')
+
+    def clean_amount(self):
+        amount = self.cleaned_data.get('amount')
+        if amount is not None and amount <= 0:
+            raise forms.ValidationError("Amount must be greater than zero.")
+        return amount
+
+    def clean_timestamp(self):
+        value = self.cleaned_data.get('timestamp')
+        if value and timezone.is_naive(value):
+            return timezone.make_aware(value)
+        return value
