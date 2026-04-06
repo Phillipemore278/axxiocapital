@@ -1,0 +1,50 @@
+{% extends "./base.html" %}
+
+{% block title %}New Contact Form Submission{% endblock %}
+
+{% block content %}
+  <p>Hello Support Team,</p>
+
+  <p>
+    A new contact form has been submitted by a customer. Here are the details:
+  </p>
+
+  <table cellpadding="0" cellspacing="0" style="margin:16px 0; border-collapse: collapse;">
+    <tr>
+      <td style="padding: 8px; font-weight: bold; background-color: #f0f0f0;">Name:</td>
+      <td style="padding: 8px;">{{ username }}</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; font-weight: bold; background-color: #f0f0f0;">Email:</td>
+      <td style="padding: 8px;">{{ email }}</td>
+    </tr>
+    {% if phone %}
+    <tr>
+      <td style="padding: 8px; font-weight: bold; background-color: #f0f0f0;">Phone:</td>
+      <td style="padding: 8px;">{{ phone }}</td>
+    </tr>
+    {% endif %}
+    {% if subject %}
+    <tr>
+      <td style="padding: 8px; font-weight: bold; background-color: #f0f0f0;">Organization/Subject:</td>
+      <td style="padding: 8px;">{{ subject }}</td>
+    </tr>
+    {% endif %}
+    <tr>
+      <td style="padding: 8px; font-weight: bold; background-color: #f0f0f0;">Topic:</td>
+      <td style="padding: 8px;">{{ topic }}</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; font-weight: bold; background-color: #f0f0f0;">Message:</td>
+      <td style="padding: 8px; word-break: break-word;">{{ message|linebreaksbr }}</td>
+    </tr>
+  </table>
+
+  <p>
+    Please follow up with the customer as soon as possible.
+  </p>
+
+  <p style="font-size: 12px; color: #888;">
+    This is an automated notification from <strong>{{ site_name }}</strong>.
+  </p>
+{% endblock %}

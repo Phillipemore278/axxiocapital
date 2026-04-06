@@ -70,59 +70,93 @@
                 <h2>Drop a line, Stay in touch</h2>
                 <p>Please do not hesitate to contact us by sending a message.</p>
             </div>
+             {% include "../notification/messages.html" %}
             <div class="special-text">
                 <div class="shape" style="background-image: url(assets/images/shape/shape-48.png);"></div>
-                <h6><img src="assets/images/icons/icon-63.png" alt=""> Say Hi &amp; Hello</h6>
+                <h6><img src="{% static 'frontend/assets/images/icons/icon-63.png' %}" alt=""> Say Hi &amp; Hello</h6>
             </div>
         </div>
         <div class="form-inner">
-            <form method="post" action="sendemail.php" id="contact-form" class="default-form">
+            <form method="post" action="" id="contact-form" class="default-form pinner-form">
+                {% csrf_token %}
                 <div class="row clearfix">
                     <div class="col-lg-6 col-md-12 col-sm-12 left-column">
+
+                        <!-- Name -->
                         <div class="form-group">
                             <label><i class="fa-regular fa-user"></i> Your Name</label>
-                            <input type="text" name="username" placeholder="Enter name here" required="">
+                            {{ form.username }}
+                            {% if form.username.errors %}
+                            <div class="text-danger">{{ form.username.errors }}</div>
+                            {% endif %}
                         </div>
+
                         <div class="row clearfix">
+                            <!-- Email -->
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <label><i class="fa-regular fa-envelope"></i> Email Address</label>
-                                    <input type="email" name="email" placeholder="Email address" required="">
+                                    {{ form.email }}
+                                    {% if form.email.errors %}
+                                    <div class="text-danger">{{ form.email.errors }}</div>
+                                    {% endif %}
                                 </div>
                             </div>
+
+                            <!-- Phone -->
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <label><i class="fa-solid fa-phone"></i> Phone <span>(optional)</span></label>
-                                    <input type="text" name="phone" required="" placeholder="Ph num">
+                                    {{ form.phone }}
+                                    {% if form.phone.errors %}
+                                    <div class="text-danger">{{ form.phone.errors }}</div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Organization -->
                         <div class="form-group">
                             <label><i class="fa-regular fa-building"></i> Organization <span>(optional)</span></label>
-                            <input type="text" name="subject" required="" placeholder="Subject">
+                            {{ form.subject }}
+                            {% if form.subject.errors %}
+                            <div class="text-danger">{{ form.subject.errors }}</div>
+                            {% endif %}
                         </div>
+
+                        <!-- Topic -->
                         <div class="form-group">
                             <label><i class="fa-regular fa-comment"></i> Want to Discuss About</label>
-                            <div class="select-box">
-                                <select class="selectmenu">
-                                    <option>Withdrawals</option>
-                                    <option>Currency Pairs</option>
-                                    <option>Platform & Tools</option>
-                                    <option>Monitoring & Support</option>
-                                    <option>Education & Training</option>
-                                </select>
-                            </div>
+                            {{ form.topic }}
+                            {% if form.topic.errors %}
+                            <div class="text-danger">{{ form.topic.errors }}</div>
+                            {% endif %}
                         </div>
                     </div>
+
                     <div class="col-lg-6 col-md-12 col-sm-12 right-column">
+                        <!-- Message -->
                         <label><i class="fa-solid fa-text-height"></i> Message</label>
                         <div class="message-box">
                             <div class="form-group">
-                                <textarea name="message" placeholder="Message goes here"></textarea>
+                                {{ form.message }}
+                                {% if form.message.errors %}
+                                <div class="text-danger">{{ form.message.errors }}</div>
+                                {% endif %}
                             </div>
-                            <button class="theme-btn btn-two" type="submit" name="submit-form"><span>Send Message</span></button>
+                            <button class="theme-btn btn-two" type="submit" name="submit-form" 
+                            data-spinner-text="Sending Message..."
+                            data-spinner-class="btn-secondary w-100">
+                                <span>Send Message</span>
+                            </button>
+                            <!-- <button class="theme-btn btn-two w-100" type="submit" name="submit-form" 
+                            data-spinner-text="Authenticating..."
+                            data-spinner-class="btn-secondary w-100">
+                                Login
+                            </button> -->
                         </div>
                     </div>
+
                 </div>
             </form>
         </div>
